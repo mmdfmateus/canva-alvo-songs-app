@@ -1,179 +1,281 @@
-# Canva App
+# Canva Song Lyrics Automation App
 
-Welcome to your Canva App! 🎉
+A Canva app that automates adding song lyrics to slide presentations. Users can browse through a collection of songs, select one, and the app will automatically create multiple styled slides with the lyrics formatted with an orange background and white centered text.
 
-This is a starting point for your app using your chosen template. The complete documentation for the platform is at [canva.dev/docs/apps](https://www.canva.dev/docs/apps/).
+## 🎯 Overview
 
-**Note:** This code and documentation assumes some experience with TypeScript and React.
+This app allows users to:
+- Browse and search through a collection of songs
+- Select a song to automatically generate styled slides
+- Each slide displays 4-6 lines of lyrics with consistent styling
+- Slides are created with an orange background (#FF6B35) and white centered text
 
-## Requirements
+## ✨ Features
+
+- **Song Browser**: Search and filter songs by title or artist
+- **Automatic Slide Generation**: Splits lyrics into slides (4-6 lines per slide)
+- **Styled Slides**: Orange background with white, centered, appropriately sized text
+- **Progress Tracking**: Real-time progress indicator during slide creation
+- **Rate Limiting**: Automatically handles Canva's rate limits (3 pages/second)
+- **Error Handling**: Graceful handling of quota exceeded and rate limit errors
+- **Partial Success**: Shows how many slides were created if errors occur
+
+## 📁 Project Structure
+
+```
+canva-alvo-songs-app/
+├── src/
+│   ├── components/
+│   │   └── SongBrowser.tsx          # Song selection UI component
+│   ├── data/
+│   │   └── songs.json               # Song lyrics data (3 songs currently)
+│   ├── intents/
+│   │   └── design_editor/
+│   │       ├── app.tsx              # Main app component
+│   │       └── index.tsx             # Design Editor intent setup
+│   ├── utils/
+│   │   ├── lyricsProcessor.ts       # Logic to split lyrics into slides
+│   │   └── slideCreator.ts          # Creates styled slides in Canva
+│   └── index.tsx                    # App entry point
+├── styles/
+│   └── components.css                # Component styles
+├── canva-app.json                   # Canva app configuration
+├── package.json                     # Dependencies and scripts
+└── README.md                        # This file
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
 
 - Node.js `v18` or `v20.10.0`
 - npm `v9` or `v10`
+- A Canva Developer account
 
-**Note:** To make sure you're running the correct version of Node.js, we recommend using a version manager, such as [nvm](https://github.com/nvm-sh/nvm#intro). The [.nvmrc](/.nvmrc) file in the root directory of this repo will ensure the correct version is used once you run `nvm install`.
-
-## Quick start
+### Installation
 
 ```bash
 npm install
 ```
 
-## Running your Canva App
+### Development
 
-### Step 1: Start the local development server
-
-To start the boilerplate's development server, run the following command:
-
-```bash
-npm start
-```
-
-The server becomes available at <http://localhost:8080>.
-
-The app's source code is in the `src/app.tsx` file.
-
-### Step 2: Preview the app
-
-The local development server only exposes a JavaScript bundle, so you can't preview an app by visiting <http://localhost:8080>. You can only preview an app via the Canva editor.
-
-To preview an app:
-
-1. Create an app via the [Developer Portal](https://www.canva.com/developers/apps).
-2. Select **App source > Development URL**.
-3. In the **Development URL** field, enter the URL of the development server.
-4. Click **Preview**. This opens the Canva editor (and the app) in a new tab.
-5. Click **Open**. (This screen only appears when using an app for the first time.)
-
-The app will appear in the side panel.
-
-<details>
-  <summary>Previewing apps in Safari</summary>
-
-By default, the development server is not HTTPS-enabled. This is convenient, as there's no need for a security certificate, but it prevents apps from being previewed in Safari.
-
-**Why Safari requires the development server to be HTTPS-enabled?**
-
-Canva itself is served via HTTPS and most browsers prevent HTTPS pages from loading scripts via non-HTTPS connections. Chrome and Firefox make exceptions for local servers, such as `localhost`, but Safari does not, so if you're using Safari, the development server must be HTTPS-enabled.
-
-To learn more, see [Loading mixed-content resources](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content#loading_mixed-content_resources).
-
-To preview apps in Safari:
-
-1. Start the development server with HTTPS enabled:
-
-```bash
-npm start --use-https
-```
-
-2. Navigate to <https://localhost:8080>.
-3. Bypass the invalid security certificate warning:
-   1. Click **Show details**.
-   2. Click **Visit website**.
-4. In the Developer Portal, set the app's **Development URL** to <https://localhost:8080>.
-5. Click preview (or refresh your app if it's already open).
-
-You need to bypass the invalid security certificate warning every time you start the local server. A similar warning will appear in other browsers (and will need to be bypassed) whenever HTTPS is enabled.
-
-</details>
-
-### Step 3 (Optional): Enable Hot Module Replacement
-
-By default, every time you make a change to an app, you have to reload the entire app to see the results of those changes. If you enable [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) (HMR), changes will be reflected without a full reload, which significantly speeds up the development loop.
-
-**Note:** HMR does **not** work while running the development server in a Docker container.
-
-To enable HMR:
-
-1. Navigate to an app via the [Your apps](https://www.canva.com/developers/apps).
-1. Select **Security** -> **Credentials** -> **.env file**.
-1. Copy the `.env` file contents.
-1. Paste the contents into the starter kit's `.env` file. For example:
-
-   ```bash
-   CANVA_APP_ORIGIN=https://app-aabbccddeeff.canva-apps.com
-   CANVA_HMR_ENABLED=true
-   ```
-
-1. Restart the local development server.
-1. Reload the app manually to ensure that HMR takes effect.
-
-### Step 4 (Optional): Setup the Canva Dev MCP Server
-
-If you're using AI coding tools, such as Cursor or Claude Code, you can connect to the Canva Dev MCP Server to supercharge your development workflow. See this [setup guide](https://www.canva.dev/docs/apps/mcp-server/) to get started.
-
-## Running an app's backend
-
-Some templates provide an example backend. This backend is defined in the template's `backend/server.ts` file, automatically starts when the `npm start` command is run, and becomes available at <http://localhost:3001>.
-
-To run templates that have a backend:
-
-1. Navigate to the [Your apps](https://www.canva.com/developers/apps) page.
-1. Select the app you want to run the example with.
-1. Copy your environment variables from **Security** -> **Credentials** -> **.env file**.
-1. Paste the contents into the starter kit's `.env` file.
-
-   For example:
-
-   ```bash
-   CANVA_APP_ID=AABBccddeeff
-   CANVA_APP_ORIGIN=https://app-aabbccddeeff.canva-apps.com
-   CANVA_BACKEND_PORT=3001
-   CANVA_FRONTEND_PORT=8080
-   CANVA_BACKEND_HOST=http://localhost:3001
-   CANVA_HMR_ENABLED=TRUE
-   ```
-
-1. Start the app:
-
+1. **Start the development server:**
    ```bash
    npm start
    ```
+   The server runs at `http://localhost:8080`
 
-The ID of the app must be explicitly defined because it's required to [send and verify HTTP requests](https://www.canva.dev/docs/apps/verifying-http-requests/). If you don't set up the ID in the `.env` file, an error will be thrown when attempting to run the example.
+2. **Set up in Canva Developer Portal:**
+   - Go to [Developer Portal](https://www.canva.com/developers/apps)
+   - Create a new app or select existing one
+   - Set **Development URL** to `http://localhost:8080`
+   - Click **Preview** to open in Canva editor
 
-## Customizing the backend host
+3. **Enable Hot Module Replacement (optional):**
+   - Copy `.env` file from Developer Portal (Security → Credentials)
+   - Add `CANVA_HMR_ENABLED=TRUE` to local `.env`
+   - Restart dev server for auto-reload
 
-If your app has a backend, the URL of the server likely depends on whether it's a development or production build. For example, during development, the backend is probably running on a localhost URL, but once the app's in production, the backend needs to be exposed to the internet.
+## 🎨 How It Works
 
-To more easily customize the URL of the server:
+1. **Song Selection**: User browses/search songs in the SongBrowser component
+2. **Lyrics Processing**: Selected song lyrics are split into slides (4-6 lines per slide)
+3. **Slide Creation**: Each slide is created with:
+   - Orange background (#FF6B35)
+   - White centered text
+   - Appropriate font sizing (48px for lyrics, 64px for titles)
+   - Proper positioning and spacing
+4. **Rate Limiting**: Pages are added with 400ms delays to respect Canva's 3 pages/second limit
+5. **Progress Feedback**: User sees real-time progress during creation
 
-1. Open the `.env` file in the text editor of your choice.
-2. Set the `CANVA_BACKEND_HOST` environment variable to the URL of the server.
-3. When sending a request, use `BACKEND_HOST` as the base URL:
+## 🔧 Technical Details
 
-   ```ts
-   const response = await fetch(`${BACKEND_HOST}/custom-route`);
-   ```
+### Rate Limiting & Quota Handling
 
-   **Note:** `BACKEND_HOST` is a global constant that contains the value of the `CANVA_BACKEND_HOST` environment variable. The variable is made available to the app via webpack and does not need to be imported.
+The app handles Canva's platform limits:
 
-4. Before bundling the app for production, update `CANVA_BACKEND_HOST` to point to the production backend.
+- **Rate Limiting**: Max 3 pages per second
+  - Solution: 400ms delay between page additions (~2.5 pages/second)
+  - Automatic retry on rate limit errors with 1 second wait
 
-## Configure ngrok (optional)
+- **Quota Exceeded**: Maximum pages per design
+  - Solution: Partial success reporting (shows how many pages were created)
+  - Clear error messages with actionable guidance
 
-If your app requires authentication with a third party service, your server needs to be exposed via a publicly available URL, so that Canva can send requests to it.
-This step explains how to do this with [ngrok](https://ngrok.com/).
+### Error Handling
 
-**Note:** ngrok is a useful tool, but it has inherent security risks, such as someone figuring out the URL of your server and accessing proprietary information. Be mindful of the risks, and if you're working as part of an organization, talk to your IT department.
-You must replace ngrok urls with hosted API endpoints for production apps.
+- Graceful degradation when errors occur
+- Partial success reporting (e.g., "Created 5 of 10 slides")
+- User-friendly error messages
+- Toast notifications for success and errors
 
-To use ngrok, you'll need to do the following:
+### APIs Used
 
-1. Sign up for a ngrok account at <https://ngrok.com/>.
-2. Locate your ngrok [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken).
-3. Set an environment variable for your authtoken, using the command line. Replace `<YOUR_AUTH_TOKEN>` with your actual ngrok authtoken:
+- `getDesignMetadata()` - Get page dimensions (replaces deprecated `getDefaultPageDimensions`)
+- `addPage()` - Create new pages with elements and background
+- `createRichtextRange()` - Create formatted text elements
+- `notification.addToast()` - Show user feedback
 
-   For macOS and Linux:
+## 📝 Current Status
 
-   ```bash
-   export NGROK_AUTHTOKEN=<YOUR_AUTH_TOKEN>
-   ```
+### ✅ Completed
 
-   For Windows PowerShell:
+- [x] Canva app structure with Design Editor intent
+- [x] Song browser UI with search functionality
+- [x] Lyrics-to-slides conversion (4-6 lines per slide)
+- [x] Slide creation with orange/white styling
+- [x] Rate limiting and error handling
+- [x] Progress tracking and UI feedback
+- [x] Three Alvo songs added to collection
+- [x] Fixed deprecated API usage (`getDesignMetadata`)
 
-   ```shell
-   $Env:NGROK_AUTHTOKEN = "<YOUR_AUTH_TOKEN>"
-   ```
+### 📋 Next Steps / TODOs
 
-This environment variable is available for the current terminal session, so the command must be re-run for each new session. Alternatively, you can add the variable to your terminal's default parameters.
+- [ ] Add more songs to reach ~50 songs (currently 3)
+- [ ] Test with various song lengths
+- [ ] Complete app listing in Developer Portal:
+  - [ ] App icon
+  - [ ] Featured image
+  - [ ] Description and benefits
+- [ ] Localization (i18n) support
+- [ ] Build production bundle: `npm run build`
+- [ ] Submit for review in Developer Portal
+- [ ] Release to public Apps Marketplace
+
+## 🎵 Current Songs
+
+The app currently includes 3 songs from Alvo:
+
+1. **Conheci um grande amigo** - Song about meeting Jesus as a great friend
+2. **Casa** - Song about being God's dwelling place
+3. **Amor Pra Mim** - Song about finding love in Christ
+
+Songs are stored in `src/data/songs.json` in the following format:
+
+```json
+{
+  "id": "1",
+  "title": "Song Title",
+  "artist": "Artist Name",
+  "lyrics": [
+    "Line 1",
+    "Line 2",
+    "",
+    "Line 3"
+  ]
+}
+```
+
+## 🧪 Testing
+
+### Local Testing
+
+```bash
+# Type checking
+npm run lint:types
+
+# Linting
+npm run lint
+
+# Formatting
+npm run format
+
+# Tests
+npm test
+```
+
+### Testing Checklist
+
+Before submission, test:
+- [ ] Core functionality (browse, select, add slides)
+- [ ] Different song lengths (short, medium, long)
+- [ ] Error handling (quota limits, rate limiting)
+- [ ] Light and dark themes
+- [ ] Mobile viewport (responsive design)
+- [ ] Feature support (check if `addPage` works in all design types)
+
+## 📦 Building for Production
+
+```bash
+npm run build
+```
+
+This creates a production bundle in the `dist/` directory. Upload this to the Developer Portal under **Code upload → App source**.
+
+**Important:** Clear the Development URL before submission.
+
+## 🚢 Publishing
+
+### Pre-Submission Requirements
+
+1. **Populate Data**: Add all ~50 songs to `songs.json`
+2. **Follow Design Guidelines**: Use App UI Kit components, ensure accessibility
+3. **Localization**: Upload UI strings for translation (Canva translates for free)
+4. **Create App Listing**: Icon, featured image, descriptions
+5. **Security**: No hardcoded credentials, proper error handling
+
+### Submission Process
+
+1. Build production bundle: `npm run build`
+2. Upload to Developer Portal → Code upload → **App source**
+3. Complete app listing (icon, images, descriptions)
+4. Clear Development URL
+5. Submit for review
+
+See the [Canva Apps documentation](https://www.canva.dev/docs/apps/submitting-apps) for detailed submission guidelines.
+
+## 🛠️ Development Commands
+
+```bash
+# Start development server
+npm start
+
+# Start with HTTPS (for Safari)
+npm start --use-https
+
+# Build for production
+npm run build
+
+# Type checking
+npm run lint:types
+
+# Linting
+npm run lint
+npm run lint:fix
+
+# Formatting
+npm run format
+npm run format:check
+
+# Tests
+npm test
+npm run test:watch
+```
+
+## 📚 Resources
+
+- [Canva Apps SDK Documentation](https://www.canva.dev/docs/apps)
+- [App UI Kit](https://www.canva.dev/docs/apps/app-ui-kit)
+- [Design Editor Intent](https://www.canva.dev/docs/apps/intents/design-editor)
+- [Developer Portal](https://www.canva.com/developers/apps)
+- [Community Forum](https://community.canva.dev/)
+
+## 📄 License
+
+See [LICENSE.md](LICENSE.md) for details.
+
+## 🤝 Contributing
+
+This is a personal project, but suggestions and improvements are welcome!
+
+## 📝 Notes
+
+- The app uses the Design Editor intent pattern
+- All styling follows Canva's design guidelines
+- Rate limiting is handled automatically to prevent API errors
+- The app is configured for public distribution (set during creation, cannot be changed)
+
+---
+
+**Last Updated**: Initial implementation complete. Ready for testing and song collection expansion.
