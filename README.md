@@ -133,6 +133,9 @@ The app handles Canva's platform limits:
 ### 📋 Next Steps / TODOs
 
 - [ ] Add more songs to reach ~50 songs (currently 3)
+- [ ] **Song title in a separate slide** - Create a dedicated title slide before lyrics slides
+- [ ] **Remove hardcoded orange styling** - Make background color configurable
+- [ ] **Adapt to existing presentation styling** - Reuse/adapt colors, fonts, and styles from the current Canva presentation instead of hardcoded values
 - [ ] Test with various song lengths
 - [ ] Complete app listing in Developer Portal:
   - [ ] App icon
