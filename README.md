@@ -5,6 +5,7 @@ A Canva app that automates adding song lyrics to slide presentations. Users can 
 ## 🎯 Overview
 
 This app allows users to:
+
 - Browse and search through a collection of songs
 - Select a song to automatically generate styled slides
 - Each slide displays 4-6 lines of lyrics with consistent styling
@@ -61,9 +62,11 @@ npm install
 ### Development
 
 1. **Start the development server:**
+
    ```bash
    npm start
    ```
+
    The server runs at `http://localhost:8080`
 
 2. **Set up in Canva Developer Portal:**
@@ -129,11 +132,11 @@ The app handles Canva's platform limits:
 - [x] Progress tracking and UI feedback
 - [x] Three Alvo songs added to collection
 - [x] Fixed deprecated API usage (`getDesignMetadata`)
+- [x] **Song title in a separate slide** - Create a dedicated title slide before lyrics slides
 
 ### 📋 Next Steps / TODOs
 
 - [ ] Add more songs to reach ~50 songs (currently 3)
-- [ ] **Song title in a separate slide** - Create a dedicated title slide before lyrics slides
 - [ ] **Remove hardcoded orange styling** - Make background color configurable
 - [ ] **Adapt to existing presentation styling** - Reuse/adapt colors, fonts, and styles from the current Canva presentation instead of hardcoded values
 - [ ] Test with various song lengths
@@ -161,12 +164,7 @@ Songs are stored in `src/data/songs.json` in the following format:
   "id": "1",
   "title": "Song Title",
   "artist": "Artist Name",
-  "lyrics": [
-    "Line 1",
-    "Line 2",
-    "",
-    "Line 3"
-  ]
+  "lyrics": ["Line 1", "Line 2", "", "Line 3"]
 }
 ```
 
@@ -191,6 +189,7 @@ npm test
 ### Testing Checklist
 
 Before submission, test:
+
 - [ ] Core functionality (browse, select, add slides)
 - [ ] Different song lengths (short, medium, long)
 - [ ] Error handling (quota limits, rate limiting)

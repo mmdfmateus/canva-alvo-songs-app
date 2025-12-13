@@ -16,6 +16,18 @@ export function SongBrowser({
 }: SongBrowserProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Helper function to check if artist is valid (not null, undefined, or empty)
+  const hasValidArtist = (artist: string | null | undefined): boolean => {
+    return artist != null && artist.trim().length > 0;
+  };
+
+  // Helper function to format song display name
+  const getSongDisplayName = (song: Song): string => {
+    return hasValidArtist(song.artist)
+      ? `${song.title} - ${song.artist}`
+      : song.title;
+  };
+
   // Filter songs based on search query
   const filteredSongs = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -26,7 +38,8 @@ export function SongBrowser({
     return songs.filter(
       (song) =>
         song.title.toLowerCase().includes(query) ||
-        song.artist.toLowerCase().includes(query),
+        (hasValidArtist(song.artist) &&
+          song.artist!.toLowerCase().includes(query)),
     );
   }, [songs, searchQuery]);
 
@@ -66,7 +79,7 @@ export function SongBrowser({
                 disabled={isLoading}
                 stretch
               >
-                {`${song.title} - ${song.artist}`}
+                {getSongDisplayName(song)}
               </Button>
             ))}
           </Rows>

@@ -13,7 +13,7 @@ import { SongBrowser } from "../../components/SongBrowser";
 import songsData from "../../data/songs.json";
 import { splitLyricsIntoSlides, type Song } from "../../utils/lyricsProcessor";
 import {
-  createSlidesWithLyrics,
+  createSongSlides,
   type CreateSlidesResult,
 } from "../../utils/slideCreator";
 import * as styles from "styles/components.css";
@@ -60,9 +60,12 @@ export const App = () => {
       }
 
       // Create slides with styled content and progress tracking
-      const result: CreateSlidesResult = await createSlidesWithLyrics(
+      // First creates a title slide, then lyrics slides
+      const result: CreateSlidesResult = await createSongSlides(
         slides,
         song.title,
+        song.artist,
+        undefined, // Use default styling (can be extended later to adapt to existing presentation)
         (current, total) => {
           setProgress({ current, total });
         },
