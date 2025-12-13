@@ -1,10 +1,15 @@
-import { addPage, createRichtextRange, getDesignMetadata } from "@canva/design";
+import {
+  addPage,
+  createRichtextRange,
+  getDesignMetadata,
+  openDesign,
+} from "@canva/design";
 import { CanvaError } from "@canva/error";
 import type { SlideContent } from "./lyricsProcessor";
 
 // Styling constants
-const DEFAULT_BACKGROUND_COLOR = "#FF6B35"; // Default orange color (can be overridden)
-const TEXT_COLOR = "#FFFFFF"; // White color
+const DEFAULT_BACKGROUND_COLOR = "#FFFFFF"; // Default white color (can be overridden)
+const TEXT_COLOR = "#000000"; // Black color
 const FONT_SIZE = 48; // Base font size in pixels
 const TITLE_FONT_SIZE = 64; // Title font size for lyrics slides
 const TITLE_SLIDE_FONT_SIZE = 80; // Larger font size for dedicated title slide
@@ -27,6 +32,36 @@ export interface SlideStyleOptions {
 // Rate limiting: Canva allows max 3 pages per second
 // We'll add a small delay to ensure we stay under the limit
 const RATE_LIMIT_DELAY_MS = 600; // ~2.5 pages per second to be safe
+
+/**
+ * Gets the background color of the current page in the Canva design.
+ * Returns the color as a hex string (e.g., "#FF6B35") or null if not available.
+ *
+ * @returns Promise that resolves to the background color hex string or null
+ */
+export async function getCurrentPageBackgroundColor(): Promise<string | null> {
+  try {
+    let backgroundColor: string | null = null;
+
+    await openDesign({ type: "current_page" }, async (session) => {
+      if (session.page.type !== "absolute") {
+        return;
+      }
+
+      const background = session.page.background;
+      if (background?.colorContainer?.ref?.type === "solid") {
+        backgroundColor = background.colorContainer.ref.color;
+      }
+    });
+
+    return backgroundColor;
+  } catch (error) {
+    // If we can't get the background color, return null
+    // The caller should handle this gracefully
+    console.warn("Could not get current page background color:", error);
+    return null;
+  }
+}
 
 /**
  * Creates a dedicated title slide with the song title and artist (if available).
@@ -143,8 +178,20 @@ export async function createSongSlides(
         pagesCreated: 0,
         totalSlides: slides.length + 1, // +1 for title slide
         error:
-          "Page dimensions are not available. Please ensure you're in a supported design type.",
+          "As dimensões da página não estão disponíveis. Por favor, certifique-se de que está em um tipo de design suportado.",
       };
+    }
+
+    // If no background color is provided, try to get it from the current page
+    let finalStyleOptions = styleOptions;
+    if (!styleOptions?.backgroundColor) {
+      const currentPageColor = await getCurrentPageBackgroundColor();
+      if (currentPageColor) {
+        finalStyleOptions = {
+          ...styleOptions,
+          backgroundColor: currentPageColor,
+        };
+      }
     }
 
     let pagesCreated = 0;
@@ -156,7 +203,7 @@ export async function createSongSlides(
       await createTitleSlide(
         songTitle,
         artist,
-        styleOptions || {},
+        finalStyleOptions || {},
         pageDimensions,
       );
       pagesCreated++;
@@ -171,7 +218,7 @@ export async function createSongSlides(
             pagesCreated: 0,
             totalSlides,
             error:
-              "Sorry, you cannot add any more pages. Please remove some existing pages and try again.",
+              "Desculpe, você não pode adicionar mais páginas. Por favor, remova algumas páginas existentes e tente novamente.",
           };
         }
         if (titleError.code === "rate_limited") {
@@ -181,7 +228,7 @@ export async function createSongSlides(
             await createTitleSlide(
               songTitle,
               artist,
-              styleOptions || {},
+              finalStyleOptions || {},
               pageDimensions,
             );
             pagesCreated++;
@@ -194,7 +241,7 @@ export async function createSongSlides(
               pagesCreated: 0,
               totalSlides,
               error:
-                "Sorry, you can only add up to 3 pages per second. Please try again in a moment.",
+                "Desculpe, você só pode adicionar até 3 páginas por segundo. Por favor, tente novamente em um momento.",
             };
           }
         } else {
@@ -209,7 +256,7 @@ export async function createSongSlides(
     const lyricsResult = await createSlidesWithLyrics(
       slides,
       songTitle,
-      styleOptions,
+      finalStyleOptions,
       (current, total) => {
         // Adjust progress to account for title slide (current + 1, total + 1)
         onProgress?.(current + 1, total + 1);
@@ -227,16 +274,16 @@ export async function createSongSlides(
     };
   } catch (error) {
     if (error instanceof CanvaError) {
-      let errorMessage = "An error occurred while creating slides.";
+      let errorMessage = "Ocorreu um erro ao criar os slides.";
 
       switch (error.code) {
         case "quota_exceeded":
           errorMessage =
-            "Sorry, you cannot add any more pages. Please remove some existing pages and try again.";
+            "Desculpe, você não pode adicionar mais páginas. Por favor, remova algumas páginas existentes e tente novamente.";
           break;
         case "rate_limited":
           errorMessage =
-            "Sorry, you can only add up to 3 pages per second. Please try again in a moment.";
+            "Desculpe, você só pode adicionar até 3 páginas por segundo. Por favor, tente novamente em um momento.";
           break;
         default:
           errorMessage = error.message || errorMessage;
@@ -257,7 +304,7 @@ export async function createSongSlides(
       error:
         error instanceof Error
           ? error.message
-          : "An unexpected error occurred while creating slides.",
+          : "Ocorreu um erro inesperado ao criar os slides.",
     };
   }
 }
@@ -287,7 +334,7 @@ export async function createSlidesWithLyrics(
         pagesCreated: 0,
         totalSlides: slides.length,
         error:
-          "Page dimensions are not available. Please ensure you're in a supported design type.",
+          "As dimensões da página não estão disponíveis. Por favor, certifique-se de que está em um tipo de design suportado.",
       };
     }
 
@@ -385,8 +432,10 @@ export async function createSlidesWithLyrics(
               totalSlides,
               error:
                 pagesCreated > 0
-                  ? `Successfully created ${pagesCreated} of ${totalSlides} slides. Cannot add more pages - please remove some existing pages and try again.`
-                  : "Sorry, you cannot add any more pages. Please remove some existing pages and try again.",
+                  ? `Criado${pagesCreated > 1 ? "s" : ""} ${pagesCreated} de ${totalSlides} slide${
+                      pagesCreated > 1 ? "s" : ""
+                    } com sucesso. Não é possível adicionar mais páginas - por favor, remova algumas páginas existentes e tente novamente.`
+                  : "Desculpe, você não pode adicionar mais páginas. Por favor, remova algumas páginas existentes e tente novamente.",
             };
           }
           if (pageError.code === "rate_limited") {
@@ -416,8 +465,10 @@ export async function createSlidesWithLyrics(
                 totalSlides,
                 error:
                   pagesCreated > 0
-                    ? `Successfully created ${pagesCreated} of ${totalSlides} slides. Rate limit exceeded - please wait a moment and try again.`
-                    : "Sorry, you can only add up to 3 pages per second. Please try again in a moment.",
+                    ? `Criado${pagesCreated > 1 ? "s" : ""} ${pagesCreated} de ${totalSlides} slide${
+                        pagesCreated > 1 ? "s" : ""
+                      } com sucesso. Limite de taxa excedido - por favor, aguarde um momento e tente novamente.`
+                    : "Desculpe, você só pode adicionar até 3 páginas por segundo. Por favor, tente novamente em um momento.",
               };
             }
           } else {
@@ -437,16 +488,16 @@ export async function createSlidesWithLyrics(
     };
   } catch (error) {
     if (error instanceof CanvaError) {
-      let errorMessage = "An error occurred while creating slides.";
+      let errorMessage = "Ocorreu um erro ao criar os slides.";
 
       switch (error.code) {
         case "quota_exceeded":
           errorMessage =
-            "Sorry, you cannot add any more pages. Please remove some existing pages and try again.";
+            "Desculpe, você não pode adicionar mais páginas. Por favor, remova algumas páginas existentes e tente novamente.";
           break;
         case "rate_limited":
           errorMessage =
-            "Sorry, you can only add up to 3 pages per second. Please try again in a moment.";
+            "Desculpe, você só pode adicionar até 3 páginas por segundo. Por favor, tente novamente em um momento.";
           break;
         default:
           errorMessage = error.message || errorMessage;
@@ -467,7 +518,7 @@ export async function createSlidesWithLyrics(
       error:
         error instanceof Error
           ? error.message
-          : "An unexpected error occurred while creating slides.",
+          : "Ocorreu um erro inesperado ao criar os slides.",
     };
   }
 }

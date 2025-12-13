@@ -53,21 +53,21 @@ export function SongBrowser({
     <div className={styles.scrollContainer}>
       <Rows spacing="3u">
         <Text>
-          Browse and select a song to add its lyrics as styled slides to your
-          design.
+          Navegue e selecione uma música para adicionar sua letra como slides
+          estilizados ao seu design.
         </Text>
 
         <SearchInputMenu
           value={searchQuery}
           onChange={setSearchQuery}
-          placeholder="Search songs by title or artist..."
+          placeholder="Buscar músicas por título ou artista..."
         />
 
         {filteredSongs.length === 0 ? (
           <Text tone="tertiary">
             {searchQuery.trim()
-              ? "No songs found matching your search."
-              : "No songs available."}
+              ? "Nenhuma música encontrada correspondente à sua busca."
+              : "Nenhuma música disponível."}
           </Text>
         ) : (
           <Rows spacing="2u">

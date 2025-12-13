@@ -1,9 +1,13 @@
 import {
   Alert,
+  ColorSelector,
+  Columns,
+  Column,
   LoadingIndicator,
   ProgressBar,
   Rows,
   Text,
+  Title,
 } from "@canva/app-ui-kit";
 import { notification } from "@canva/platform";
 import { useFeatureSupport } from "@canva/app-hooks";
@@ -26,14 +30,18 @@ export const App = () => {
     current: number;
     total: number;
   } | null>(null);
+  const [backgroundColor, setBackgroundColor] = useState<string | undefined>(
+    undefined,
+  );
+  const [textColor, setTextColor] = useState<string | undefined>(undefined);
   const isSupported = useFeatureSupport();
   const isAddPageSupported = isSupported(addPage);
 
   useEffect(() => {
-    // Check if addPage is supported in the current design type
+    // Verifica se addPage é suportado no tipo de design atual
     if (!isAddPageSupported) {
       setError(
-        "Adding pages is not supported in the current design type. Please open a Presentation design.",
+        "Adicionar páginas não é suportado no tipo de design atual. Por favor, abra um design de Apresentação.",
       );
     } else {
       setError(undefined);
@@ -50,22 +58,29 @@ export const App = () => {
     setProgress(null);
 
     try {
-      // Split lyrics into slides
+      // Divide a letra em slides
       const slides = splitLyricsIntoSlides(song.lyrics);
 
       if (slides.length === 0) {
-        setError("This song has no lyrics to display.");
+        setError("Esta música não tem letra para exibir.");
         setIsLoading(false);
         return;
       }
 
       // Create slides with styled content and progress tracking
       // First creates a title slide, then lyrics slides
+      const styleOptions: { backgroundColor?: string; textColor?: string } = {};
+      if (backgroundColor) {
+        styleOptions.backgroundColor = backgroundColor;
+      }
+      if (textColor) {
+        styleOptions.textColor = textColor;
+      }
       const result: CreateSlidesResult = await createSongSlides(
         slides,
         song.title,
         song.artist,
-        undefined, // Use default styling (can be extended later to adapt to existing presentation)
+        Object.keys(styleOptions).length > 0 ? styleOptions : undefined, // Use selected colors or adapt to existing presentation
         (current, total) => {
           setProgress({ current, total });
         },
@@ -75,20 +90,22 @@ export const App = () => {
       setProgress(null);
 
       if (result.success) {
-        // Show success notification
+        // Mostra notificação de sucesso
         await notification.addToast({
-          messageText: `Successfully added ${result.pagesCreated} slide${
+          messageText: `Adicionado${result.pagesCreated > 1 ? "s" : ""} ${result.pagesCreated} slide${
             result.pagesCreated > 1 ? "s" : ""
-          } with lyrics from "${song.title}"!`,
+          } com a letra de "${song.title}"!`,
           timeoutMs: 5000,
         });
         setError(undefined);
       } else {
-        // Show error, but also show partial success if some pages were created
-        setError(result.error || "Failed to create slides.");
+        // Mostra erro, mas também mostra sucesso parcial se algumas páginas foram criadas
+        setError(result.error || "Falha ao criar slides.");
         if (result.pagesCreated > 0) {
           await notification.addToast({
-            messageText: `Created ${result.pagesCreated} of ${result.totalSlides} slides. ${result.error}`,
+            messageText: `Criado${result.pagesCreated > 1 ? "s" : ""} ${result.pagesCreated} de ${result.totalSlides} slide${
+              result.pagesCreated > 1 ? "s" : ""
+            }. ${result.error}`,
             timeoutMs: 7000,
           });
         }
@@ -98,7 +115,7 @@ export const App = () => {
       const errorMessage =
         err instanceof Error
           ? err.message
-          : "An unexpected error occurred while creating slides.";
+          : "Ocorreu um erro inesperado ao criar os slides.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -112,22 +129,22 @@ export const App = () => {
 
         {!isAddPageSupported && !error && (
           <Alert tone="warn">
-            Adding pages is not supported in the current design type. Please
-            open a Presentation design to use this app.
+            Adicionar páginas não é suportado no tipo de design atual. Por
+            favor, abra um design de Apresentação para usar este app.
           </Alert>
         )}
 
         {isLoading && progress && (
           <Rows spacing="2u">
             <Text>
-              Adding pages: {progress.current} of {progress.total}
+              Adicionando páginas: {progress.current} de {progress.total}
             </Text>
             <ProgressBar
               value={Math.round((progress.current / progress.total) * 100)}
             />
             <Text tone="tertiary" size="small">
-              Please wait while pages are being created. This may take a moment
-              for longer songs.
+              Aguarde enquanto as páginas estão sendo criadas. Isso pode levar
+              um momento para músicas mais longas.
             </Text>
           </Rows>
         )}
@@ -135,7 +152,37 @@ export const App = () => {
         {isLoading && !progress && (
           <Rows spacing="2u">
             <LoadingIndicator />
-            <Text tone="tertiary">Preparing slides...</Text>
+            <Text tone="tertiary">Preparando slides...</Text>
+          </Rows>
+        )}
+
+        {!isLoading && (
+          <Rows spacing="2u">
+            <Title size="small">Cores</Title>
+            <Columns spacing="2u">
+              <Column width="1/2">
+                <Rows spacing="1u">
+                  <Text size="small">Fundo</Text>
+                  <ColorSelector
+                    color={backgroundColor || "#FFFFFF"}
+                    onChange={(color) => {
+                      setBackgroundColor(color);
+                    }}
+                  />
+                </Rows>
+              </Column>
+              <Column width="1/2">
+                <Rows spacing="1u">
+                  <Text size="small">Texto</Text>
+                  <ColorSelector
+                    color={textColor || "#000000"}
+                    onChange={(color) => {
+                      setTextColor(color);
+                    }}
+                  />
+                </Rows>
+              </Column>
+            </Columns>
           </Rows>
         )}
 
