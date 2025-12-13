@@ -42,7 +42,8 @@ async function createTitleSlide(
   styleOptions: SlideStyleOptions,
   pageDimensions: { width: number; height: number },
 ): Promise<void> {
-  const backgroundColor = styleOptions.backgroundColor || DEFAULT_BACKGROUND_COLOR;
+  const backgroundColor =
+    styleOptions.backgroundColor || DEFAULT_BACKGROUND_COLOR;
   const textColor = styleOptions.textColor || TEXT_COLOR;
 
   // Check if artist is valid (not null, undefined, or empty)
@@ -152,7 +153,12 @@ export async function createSongSlides(
     // Create title slide first
     try {
       onProgress?.(1, totalSlides);
-      await createTitleSlide(songTitle, artist, styleOptions || {}, pageDimensions);
+      await createTitleSlide(
+        songTitle,
+        artist,
+        styleOptions || {},
+        pageDimensions,
+      );
       pagesCreated++;
 
       // Add delay before creating lyrics slides
@@ -164,22 +170,31 @@ export async function createSongSlides(
             success: false,
             pagesCreated: 0,
             totalSlides,
-            error: "Sorry, you cannot add any more pages. Please remove some existing pages and try again.",
+            error:
+              "Sorry, you cannot add any more pages. Please remove some existing pages and try again.",
           };
         }
         if (titleError.code === "rate_limited") {
           // Wait and retry once
           await new Promise((resolve) => setTimeout(resolve, 1000));
           try {
-            await createTitleSlide(songTitle, artist, styleOptions || {}, pageDimensions);
+            await createTitleSlide(
+              songTitle,
+              artist,
+              styleOptions || {},
+              pageDimensions,
+            );
             pagesCreated++;
-            await new Promise((resolve) => setTimeout(resolve, RATE_LIMIT_DELAY_MS));
+            await new Promise((resolve) =>
+              setTimeout(resolve, RATE_LIMIT_DELAY_MS),
+            );
           } catch {
             return {
               success: false,
               pagesCreated: 0,
               totalSlides,
-              error: "Sorry, you can only add up to 3 pages per second. Please try again in a moment.",
+              error:
+                "Sorry, you can only add up to 3 pages per second. Please try again in a moment.",
             };
           }
         } else {
@@ -276,7 +291,8 @@ export async function createSlidesWithLyrics(
       };
     }
 
-    const backgroundColor = styleOptions?.backgroundColor || DEFAULT_BACKGROUND_COLOR;
+    const backgroundColor =
+      styleOptions?.backgroundColor || DEFAULT_BACKGROUND_COLOR;
     const textColor = styleOptions?.textColor || TEXT_COLOR;
 
     let pagesCreated = 0;
