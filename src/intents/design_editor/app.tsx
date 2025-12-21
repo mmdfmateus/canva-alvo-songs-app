@@ -40,6 +40,8 @@ export const App = () => {
     undefined,
   );
   const [textColor, setTextColor] = useState<string | undefined>(undefined);
+  const [minLinesPerSlide, setMinLinesPerSlide] = useState<number>(3);
+  const [maxLinesPerSlide, setMaxLinesPerSlide] = useState<number>(4);
   const isSupported = useFeatureSupport();
   const isAddPageSupported = isSupported(addPage);
 
@@ -91,8 +93,12 @@ export const App = () => {
     setProgress(null);
 
     try {
-      // Divide a letra em slides
-      const slides = splitLyricsIntoSlides(song.lyrics);
+      // Divide a letra em slides com as configurações do usuário
+      const slides = splitLyricsIntoSlides(
+        song.lyrics,
+        minLinesPerSlide,
+        maxLinesPerSlide,
+      );
 
       if (slides.length === 0) {
         setError("Esta música não tem letra para exibir.");
@@ -223,6 +229,78 @@ export const App = () => {
                 </Rows>
               </Column>
             </Columns>
+          </Rows>
+        )}
+
+        {!isLoading && !isLoadingSongs && (
+          <Rows spacing="2u">
+            <Title size="small">Configurações</Title>
+            <Rows spacing="2u">
+              <Columns spacing="2u">
+                <Column width="1/2">
+                  <Rows spacing="1u">
+                    <Text size="small">Mínimo de linhas por slide</Text>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={minLinesPerSlide}
+                      onChange={(e) => {
+                        const num = parseInt(e.target.value, 10);
+                        if (!isNaN(num) && num > 0 && num <= 10) {
+                          setMinLinesPerSlide(num);
+                          // Garantir que min não seja maior que max
+                          if (num > maxLinesPerSlide) {
+                            setMaxLinesPerSlide(num);
+                          }
+                        }
+                      }}
+                      style={{
+                        padding: "8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        fontSize: "14px",
+                        width: "100%",
+                      }}
+                    />
+                  </Rows>
+                </Column>
+                <Column width="1/2">
+                  <Rows spacing="1u">
+                    <Text size="small">Máximo de linhas por slide</Text>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={maxLinesPerSlide}
+                      onChange={(e) => {
+                        const num = parseInt(e.target.value, 10);
+                        if (!isNaN(num) && num > 0 && num <= 10) {
+                          setMaxLinesPerSlide(num);
+                          // Garantir que max não seja menor que min
+                          if (num < minLinesPerSlide) {
+                            setMinLinesPerSlide(num);
+                          }
+                        }
+                      }}
+                      style={{
+                        padding: "8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        fontSize: "14px",
+                        width: "100%",
+                      }}
+                    />
+                  </Rows>
+                </Column>
+              </Columns>
+              <Text tone="tertiary" size="small">
+                Configure quantas linhas de letra aparecerão em cada slide. O
+                número mínimo garante que cada slide tenha pelo menos essa
+                quantidade de linhas, e o máximo limita o número de linhas por
+                slide para evitar que o conteúdo seja cortado.
+              </Text>
+            </Rows>
           </Rows>
         )}
 

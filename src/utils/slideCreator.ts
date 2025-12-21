@@ -11,10 +11,8 @@ import type { SlideContent } from "./lyricsProcessor";
 const DEFAULT_BACKGROUND_COLOR = "#FFFFFF"; // Default white color (can be overridden)
 const TEXT_COLOR = "#000000"; // Black color
 const FONT_SIZE = 48; // Base font size in pixels
-const TITLE_FONT_SIZE = 64; // Title font size for lyrics slides
 const TITLE_SLIDE_FONT_SIZE = 80; // Larger font size for dedicated title slide
 const LINE_HEIGHT = 1.4; // Line height multiplier
-const TEXT_WIDTH_RATIO = 0.8; // Text width as ratio of page width
 const VERTICAL_PADDING_RATIO = 0.1; // Vertical padding as ratio of page height
 
 export interface CreateSlidesResult {
@@ -31,7 +29,7 @@ export interface SlideStyleOptions {
 
 // Rate limiting: Canva allows max 3 pages per second
 // We'll add a small delay to ensure we stay under the limit
-const RATE_LIMIT_DELAY_MS = 600; // ~2.5 pages per second to be safe
+const RATE_LIMIT_DELAY_MS = 800; // ~1.25 pages per second to be safe
 
 /**
  * Gets the background color of the current page in the Canva design.
@@ -55,10 +53,9 @@ export async function getCurrentPageBackgroundColor(): Promise<string | null> {
     });
 
     return backgroundColor;
-  } catch (error) {
+  } catch {
     // If we can't get the background color, return null
     // The caller should handle this gracefully
-    console.warn("Could not get current page background color:", error);
     return null;
   }
 }
@@ -84,9 +81,11 @@ async function createTitleSlide(
   // Check if artist is valid (not null, undefined, or empty)
   const hasValidArtist = artist != null && artist.trim().length > 0;
 
-  // Calculate text positioning
-  const textWidth = pageDimensions.width * TEXT_WIDTH_RATIO;
-  const textLeft = (pageDimensions.width - textWidth) / 2;
+  // Calculate text positioning with proper margins to avoid clipping
+  const horizontalPadding = pageDimensions.width * 0.1; // 10% horizontal padding
+  const textWidth = pageDimensions.width - horizontalPadding * 2;
+  const textLeft = (pageDimensions.width - textWidth) / 2; // Center horizontally
+  const verticalPadding = pageDimensions.height * VERTICAL_PADDING_RATIO;
 
   // Create richtext range for the title slide
   const range = createRichtextRange();
@@ -116,9 +115,9 @@ async function createTitleSlide(
   );
 
   // Format artist only if it exists
-  if (hasValidArtist) {
+  if (hasValidArtist && artist) {
     range.formatParagraph(
-      { index: songTitle.length + 2, length: artist!.length },
+      { index: songTitle.length + 2, length: artist.length },
       {
         fontSize: FONT_SIZE,
         textAlign: "center",
@@ -127,11 +126,28 @@ async function createTitleSlide(
     );
   }
 
-  // Center vertically
-  const estimatedTitleHeight = TITLE_SLIDE_FONT_SIZE * 2;
-  const estimatedArtistHeight = hasValidArtist ? FONT_SIZE * 1.5 : 0;
+  // Position vertically, slightly above center for better visual balance
+  const estimatedTitleHeight = TITLE_SLIDE_FONT_SIZE * LINE_HEIGHT;
+  const estimatedArtistHeight = hasValidArtist
+    ? FONT_SIZE * LINE_HEIGHT * 1.5
+    : 0;
   const totalTextHeight = estimatedTitleHeight + estimatedArtistHeight;
-  const textTop = (pageDimensions.height - totalTextHeight) / 2;
+
+  // Calculate the maximum top position to prevent bottom clipping
+  const maxAllowedTop =
+    pageDimensions.height - totalTextHeight - verticalPadding;
+
+  // Calculate position slightly above center for better visual balance
+  const offsetFromCenter = pageDimensions.height * 0.05; // Move up by 5% of page height
+  const centeredTop =
+    (pageDimensions.height - totalTextHeight) / 2 - offsetFromCenter;
+
+  // Use adjusted position if it fits, otherwise use the maximum allowed position
+  // Ensure it's never less than the vertical padding
+  const finalTextTop = Math.max(
+    verticalPadding,
+    Math.min(centeredTop, maxAllowedTop),
+  );
 
   // Create the title page
   await addPage({
@@ -140,7 +156,7 @@ async function createTitleSlide(
       {
         type: "richtext",
         range,
-        top: textTop,
+        top: finalTextTop,
         left: textLeft,
         width: textWidth,
       },
@@ -360,10 +376,11 @@ export async function createSlidesWithLyrics(
       // Report progress
       onProgress?.(i + 1, totalSlides);
 
-      // Calculate text positioning
-      const textWidth = pageDimensions.width * TEXT_WIDTH_RATIO;
-      const textLeft = (pageDimensions.width - textWidth) / 2;
+      // Calculate text positioning with proper margins to avoid clipping
       const verticalPadding = pageDimensions.height * VERTICAL_PADDING_RATIO;
+      const horizontalPadding = pageDimensions.width * 0.1; // 10% horizontal padding
+      const textWidth = pageDimensions.width - horizontalPadding * 2;
+      const textLeft = (pageDimensions.width - textWidth) / 2; // Center horizontally
 
       // Create richtext range for the slide content
       const range = createRichtextRange();
@@ -401,7 +418,23 @@ export async function createSlidesWithLyrics(
       // Calculate text height (approximate based on line count)
       const estimatedLineHeight = FONT_SIZE * LINE_HEIGHT;
       const lyricsHeight = slide.lines.length * estimatedLineHeight;
-      const textTop = (pageDimensions.height - lyricsHeight) / 2;
+
+      // Position vertically, slightly above center for better visual balance
+      // Calculate the maximum top position to prevent bottom clipping
+      const maxAllowedTop =
+        pageDimensions.height - lyricsHeight - verticalPadding;
+
+      // Calculate position slightly above center for better visual balance
+      const offsetFromCenter = pageDimensions.height * 0.05; // Move up by 5% of page height
+      const centeredTop =
+        (pageDimensions.height - lyricsHeight) / 2 - offsetFromCenter;
+
+      // Use adjusted position if it fits, otherwise use the maximum allowed position
+      // Ensure it's never less than the vertical padding
+      const finalTextTop = Math.max(
+        verticalPadding,
+        Math.min(centeredTop, maxAllowedTop),
+      );
 
       // Create the page with background and text
       try {
@@ -411,7 +444,7 @@ export async function createSlidesWithLyrics(
             {
               type: "richtext",
               range,
-              top: Math.max(verticalPadding, textTop),
+              top: finalTextTop,
               left: textLeft,
               width: textWidth,
             },
@@ -448,7 +481,7 @@ export async function createSlidesWithLyrics(
                   {
                     type: "richtext",
                     range,
-                    top: Math.max(verticalPadding, textTop),
+                    top: finalTextTop,
                     left: textLeft,
                     width: textWidth,
                   },

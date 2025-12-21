@@ -10,13 +10,13 @@ export interface SlideContent {
 }
 
 /**
- * Splits song lyrics into slides with 4-6 lines per slide.
+ * Splits song lyrics into slides with configurable lines per slide.
  * Handles edge cases for very short or long songs.
  */
 export function splitLyricsIntoSlides(
   lyrics: string[],
-  minLinesPerSlide: number = 4,
-  maxLinesPerSlide: number = 6,
+  minLinesPerSlide: number = 3,
+  maxLinesPerSlide: number = 4,
 ): SlideContent[] {
   if (lyrics.length === 0) {
     return [];
