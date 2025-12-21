@@ -14,16 +14,22 @@ import { useFeatureSupport } from "@canva/app-hooks";
 import { addPage } from "@canva/design";
 import { useState, useEffect } from "react";
 import { SongBrowser } from "../../components/SongBrowser";
-import songsData from "../../data/songs.json";
 import { splitLyricsIntoSlides, type Song } from "../../utils/lyricsProcessor";
 import {
   createSongSlides,
   type CreateSlidesResult,
 } from "../../utils/slideCreator";
+import { loadSongs } from "../../utils/songsLoader";
+import {
+  EXTERNAL_SONGS_URL,
+  SONGS_CACHE_DURATION_MS,
+  ENABLE_SONGS_CACHE,
+} from "../../config/songsConfig";
 import * as styles from "styles/components.css";
 
 export const App = () => {
-  const [songs] = useState<Song[]>(songsData as Song[]);
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [isLoadingSongs, setIsLoadingSongs] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [progress, setProgress] = useState<{
@@ -36,6 +42,33 @@ export const App = () => {
   const [textColor, setTextColor] = useState<string | undefined>(undefined);
   const isSupported = useFeatureSupport();
   const isAddPageSupported = isSupported(addPage);
+
+  // Load songs from external source or local fallback
+  useEffect(() => {
+    const loadSongsData = async () => {
+      try {
+        setIsLoadingSongs(true);
+
+        const loadedSongs = await loadSongs({
+          songsUrl: EXTERNAL_SONGS_URL,
+          cacheDurationMs: SONGS_CACHE_DURATION_MS,
+          enableCache: ENABLE_SONGS_CACHE,
+        });
+
+        setSongs(loadedSongs);
+        console.log(`Loaded ${loadedSongs.length} songs`);
+      } catch (error) {
+        console.error("Error loading songs:", error);
+        // Error is already handled by loadSongs with local fallback
+        // But we can show a warning if needed
+        setError("Erro ao carregar músicas. Usando dados locais.");
+      } finally {
+        setIsLoadingSongs(false);
+      }
+    };
+
+    loadSongsData();
+  }, []);
 
   useEffect(() => {
     // Verifica se addPage é suportado no tipo de design atual
@@ -156,7 +189,14 @@ export const App = () => {
           </Rows>
         )}
 
-        {!isLoading && (
+        {isLoadingSongs && (
+          <Rows spacing="2u">
+            <LoadingIndicator />
+            <Text tone="tertiary">Carregando músicas...</Text>
+          </Rows>
+        )}
+
+        {!isLoading && !isLoadingSongs && (
           <Rows spacing="2u">
             <Title size="small">Cores</Title>
             <Columns spacing="2u">
@@ -186,11 +226,13 @@ export const App = () => {
           </Rows>
         )}
 
-        <SongBrowser
-          songs={songs}
-          onSelectSong={handleSongSelect}
-          isLoading={isLoading || !isAddPageSupported}
-        />
+        {!isLoadingSongs && (
+          <SongBrowser
+            songs={songs}
+            onSelectSong={handleSongSelect}
+            isLoading={isLoading || !isAddPageSupported}
+          />
+        )}
       </Rows>
     </div>
   );

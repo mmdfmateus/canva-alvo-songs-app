@@ -115,3 +115,4 @@ Antes de finalizar, verifique:
 - Slides que são apenas títulos (como o slide 198) devem ser usados para identificar o título da música, mas suas linhas não devem aparecer no array `lyrics`.
 - Se uma música tiver múltiplos slides de letras, combine-os em uma única entrada.
 - Mantenha a ordem cronológica das músicas conforme aparecem no PDF.
+
