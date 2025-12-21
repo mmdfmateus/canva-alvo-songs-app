@@ -8,6 +8,12 @@ import {
   Rows,
   Text,
   Title,
+  Button,
+  NumberInput,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Box,
+  HelpCircleIcon,
 } from "@canva/app-ui-kit";
 import { notification } from "@canva/platform";
 import { useFeatureSupport } from "@canva/app-hooks";
@@ -27,6 +33,17 @@ import {
 } from "../../config/songsConfig";
 import * as styles from "styles/components.css";
 
+// Componente auxiliar para tooltip de ajuda
+const HelpTooltip = ({ tooltip }: { tooltip: string }) => (
+  <Button
+    variant="tertiary"
+    icon={HelpCircleIcon}
+    size="small"
+    ariaLabel={tooltip}
+    tooltipLabel={tooltip}
+  />
+);
+
 export const App = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [isLoadingSongs, setIsLoadingSongs] = useState(true);
@@ -42,6 +59,7 @@ export const App = () => {
   const [textColor, setTextColor] = useState<string | undefined>(undefined);
   const [minLinesPerSlide, setMinLinesPerSlide] = useState<number>(3);
   const [maxLinesPerSlide, setMaxLinesPerSlide] = useState<number>(4);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
   const isSupported = useFeatureSupport();
   const isAddPageSupported = isSupported(addPage);
 
@@ -204,103 +222,124 @@ export const App = () => {
 
         {!isLoading && !isLoadingSongs && (
           <Rows spacing="2u">
-            <Title size="small">Cores</Title>
-            <Columns spacing="2u">
-              <Column width="1/2">
-                <Rows spacing="1u">
-                  <Text size="small">Fundo</Text>
-                  <ColorSelector
-                    color={backgroundColor || "#FFFFFF"}
-                    onChange={(color) => {
-                      setBackgroundColor(color);
-                    }}
-                  />
-                </Rows>
-              </Column>
-              <Column width="1/2">
-                <Rows spacing="1u">
-                  <Text size="small">Texto</Text>
-                  <ColorSelector
-                    color={textColor || "#000000"}
-                    onChange={(color) => {
-                      setTextColor(color);
-                    }}
-                  />
-                </Rows>
-              </Column>
-            </Columns>
-          </Rows>
-        )}
+            <Button
+              variant="tertiary"
+              icon={showSettings ? ChevronUpIcon : ChevronDownIcon}
+              iconPosition="end"
+              onClick={() => setShowSettings(!showSettings)}
+              stretch
+            >
+              Configurações
+            </Button>
 
-        {!isLoading && !isLoadingSongs && (
-          <Rows spacing="2u">
-            <Title size="small">Configurações</Title>
-            <Rows spacing="2u">
-              <Columns spacing="2u">
-                <Column width="1/2">
-                  <Rows spacing="1u">
-                    <Text size="small">Mínimo de linhas por slide</Text>
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={minLinesPerSlide}
-                      onChange={(e) => {
-                        const num = parseInt(e.target.value, 10);
-                        if (!isNaN(num) && num > 0 && num <= 10) {
-                          setMinLinesPerSlide(num);
-                          // Garantir que min não seja maior que max
-                          if (num > maxLinesPerSlide) {
-                            setMaxLinesPerSlide(num);
-                          }
-                        }
-                      }}
-                      style={{
-                        padding: "8px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        fontSize: "14px",
-                        width: "100%",
-                      }}
-                    />
+            {showSettings && (
+              <Box
+                background="neutralLow"
+                border="low"
+                borderRadius="standard"
+                padding="3u"
+              >
+                <Rows spacing="3u">
+                  <Rows spacing="2u">
+                    <Columns spacing="1u" alignY="center">
+                      <Column width="content">
+                        <Title size="small">Cores</Title>
+                      </Column>
+                      <Column width="content">
+                        <HelpTooltip tooltip="Escolha as cores de fundo e texto dos slides de letra" />
+                      </Column>
+                    </Columns>
+                    <Columns spacing="2u">
+                      <Column width="1/2">
+                        <Rows spacing="1u">
+                          <Text size="small">Fundo</Text>
+                          <ColorSelector
+                            color={backgroundColor || "#FFFFFF"}
+                            onChange={(color) => {
+                              setBackgroundColor(color);
+                            }}
+                          />
+                        </Rows>
+                      </Column>
+                      <Column width="1/2">
+                        <Rows spacing="1u">
+                          <Text size="small">Texto</Text>
+                          <ColorSelector
+                            color={textColor || "#000000"}
+                            onChange={(color) => {
+                              setTextColor(color);
+                            }}
+                          />
+                        </Rows>
+                      </Column>
+                    </Columns>
                   </Rows>
-                </Column>
-                <Column width="1/2">
-                  <Rows spacing="1u">
-                    <Text size="small">Máximo de linhas por slide</Text>
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={maxLinesPerSlide}
-                      onChange={(e) => {
-                        const num = parseInt(e.target.value, 10);
-                        if (!isNaN(num) && num > 0 && num <= 10) {
-                          setMaxLinesPerSlide(num);
-                          // Garantir que max não seja menor que min
-                          if (num < minLinesPerSlide) {
-                            setMinLinesPerSlide(num);
-                          }
-                        }
-                      }}
-                      style={{
-                        padding: "8px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        fontSize: "14px",
-                        width: "100%",
-                      }}
-                    />
+
+                  <Rows spacing="2u">
+                    <Columns spacing="1u" alignY="center">
+                      <Column width="content">
+                        <Title size="small">Linhas por slide</Title>
+                      </Column>
+                      <Column width="content">
+                        <HelpTooltip tooltip="Configure quantas linhas de letra aparecerão em cada slide" />
+                      </Column>
+                    </Columns>
+                    <Columns spacing="2u">
+                      <Column width="1/2">
+                        <Rows spacing="1u">
+                          <Text size="small">Mínimo</Text>
+                          <NumberInput
+                            min={1}
+                            max={10}
+                            value={minLinesPerSlide}
+                            onChange={(valueAsNumber) => {
+                              if (
+                                !isNaN(valueAsNumber) &&
+                                valueAsNumber > 0 &&
+                                valueAsNumber <= 10
+                              ) {
+                                setMinLinesPerSlide(valueAsNumber);
+                                if (valueAsNumber > maxLinesPerSlide) {
+                                  setMaxLinesPerSlide(valueAsNumber);
+                                }
+                              }
+                            }}
+                            hasSpinButtons
+                            incrementAriaLabel="Aumentar mínimo"
+                            decrementAriaLabel="Diminuir mínimo"
+                          />
+                        </Rows>
+                      </Column>
+                      <Column width="1/2">
+                        <Rows spacing="1u">
+                          <Text size="small">Máximo</Text>
+                          <NumberInput
+                            min={1}
+                            max={10}
+                            value={maxLinesPerSlide}
+                            onChange={(valueAsNumber) => {
+                              if (
+                                !isNaN(valueAsNumber) &&
+                                valueAsNumber > 0 &&
+                                valueAsNumber <= 10
+                              ) {
+                                setMaxLinesPerSlide(valueAsNumber);
+                                if (valueAsNumber < minLinesPerSlide) {
+                                  setMinLinesPerSlide(valueAsNumber);
+                                }
+                              }
+                            }}
+                            hasSpinButtons
+                            incrementAriaLabel="Aumentar máximo"
+                            decrementAriaLabel="Diminuir máximo"
+                          />
+                        </Rows>
+                      </Column>
+                    </Columns>
                   </Rows>
-                </Column>
-              </Columns>
-              <Text tone="tertiary" size="small">
-                Configure quantas linhas de letra aparecerão em cada slide. O
-                número mínimo garante que cada slide tenha pelo menos essa
-                quantidade de linhas, e o máximo limita o número de linhas por
-                slide para evitar que o conteúdo seja cortado.
-              </Text>
-            </Rows>
+                </Rows>
+              </Box>
+            )}
           </Rows>
         )}
 

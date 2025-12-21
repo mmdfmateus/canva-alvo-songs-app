@@ -1,7 +1,6 @@
 import { Button, Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
 import { useMemo, useState } from "react";
 import type { Song } from "../utils/lyricsProcessor";
-import * as styles from "styles/components.css";
 
 interface SongBrowserProps {
   songs: Song[];
@@ -50,41 +49,34 @@ export function SongBrowser({
   };
 
   return (
-    <div className={styles.scrollContainer}>
-      <Rows spacing="3u">
-        <Text>
-          Navegue e selecione uma música para adicionar sua letra como slides
-          estilizados ao seu design.
+    <Rows spacing="3u">
+      <SearchInputMenu
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Buscar músicas por título ou artista..."
+      />
+
+      {filteredSongs.length === 0 ? (
+        <Text tone="tertiary">
+          {searchQuery.trim()
+            ? "Nenhuma música encontrada correspondente à sua busca."
+            : "Nenhuma música disponível."}
         </Text>
-
-        <SearchInputMenu
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Buscar músicas por título ou artista..."
-        />
-
-        {filteredSongs.length === 0 ? (
-          <Text tone="tertiary">
-            {searchQuery.trim()
-              ? "Nenhuma música encontrada correspondente à sua busca."
-              : "Nenhuma música disponível."}
-          </Text>
-        ) : (
-          <Rows spacing="2u">
-            {filteredSongs.map((song) => (
-              <Button
-                key={song.id}
-                variant="secondary"
-                onClick={() => handleSongSelect(song)}
-                disabled={isLoading}
-                stretch
-              >
-                {getSongDisplayName(song)}
-              </Button>
-            ))}
-          </Rows>
-        )}
-      </Rows>
-    </div>
+      ) : (
+        <Rows spacing="2u">
+          {filteredSongs.map((song) => (
+            <Button
+              key={song.id}
+              variant="secondary"
+              onClick={() => handleSongSelect(song)}
+              disabled={isLoading}
+              stretch
+            >
+              {getSongDisplayName(song)}
+            </Button>
+          ))}
+        </Rows>
+      )}
+    </Rows>
   );
 }
