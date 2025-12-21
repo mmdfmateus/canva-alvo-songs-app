@@ -7,37 +7,139 @@ exports[`Hello World Tests should have a consistent snapshot 1`] = `
   >
     <div
       class="jv_R6g"
-      style="--NZu1Zw: 16px;"
+      style="--NZu1Zw: 24px;"
     >
-      <p
-        class="aWBg0w aZskFA u16U_g"
+      <div
+        class="Ka9auQ"
+        style="--PmK0MA: 8px; --TPF5Nw: center;"
       >
-        To make changes to this app, edit the 
-        <code>
-          src/app.tsx
-        </code>
-         file, then close and reopen the app in the editor to preview the changes.
-      </p>
-      <button
-        class="_5KtATA LQzFZw VgvqkQ _8ERLTg rV61VQ LQzFZw VgvqkQ _4_iekA _3oHQrw j34Zww aqbYPg _3FvZZg"
-        type="button"
+        <div
+          class="aDc6Yg oNSf9w"
+        >
+          <p
+            class="JYIidw aZskFA QxuLlQ"
+          >
+            Precisa de ajuda?
+          </p>
+        </div>
+        <div
+          class="aDc6Yg oNSf9w"
+        >
+          <button
+            aria-label="Ver tutorial"
+            class="_5KtATA LQzFZw VgvqkQ _8ERLTg MCgm0w unS_Qw LQzFZw VgvqkQ _4_iekA j34Zww aqbYPg _3FvZZg"
+            type="button"
+          >
+            <span
+              class="vxQy1w"
+            >
+              <span
+                aria-hidden="true"
+                class="NA_Img dkWypw"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-1.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zM8.75 9.85c.05-1.62 1.17-2.8 3.2-2.8 1.87 0 3.12 1.08 3.12 2.6 0 1.04-.52 1.77-1.45 2.33-.9.52-1.15.87-1.15 1.55v.39H10.9l-.01-.47c-.06-1.02.33-1.64 1.28-2.2.84-.5 1.13-.87 1.13-1.54 0-.71-.57-1.23-1.43-1.23-.89 0-1.45.54-1.5 1.37H8.74zm3 7.33c-.68 0-1.13-.43-1.13-1.09 0-.66.45-1.1 1.13-1.1.7 0 1.14.44 1.14 1.1 0 .66-.44 1.09-1.14 1.09z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              class="khPe7Q"
+            >
+              Tutorial
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="bZlJMA aMUpPw BMOCzQ _19NBqA V9xfvg fOwrSw EC2pjw LuBWVA"
+        role="note"
+        style="--TPsgaw: 12px; --Wk647Q: 8px; --ZGnFiQ: var(--fs4QpA);"
+      >
+        <div
+          class="JYIidw aZskFA T5LNnw"
+        >
+          <div
+            class="Ka9auQ"
+            style="--PmK0MA: 8px; --TPF5Nw: baseline;"
+          >
+            <div
+              class="aDc6Yg oNSf9w"
+            >
+              <span
+                aria-hidden="true"
+                class="uRWxVA dkWypw"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M13.773 12.079 9.197 2.764a1.333 1.333 0 0 0-2.394 0L2.227 12.08A1.334 1.334 0 0 0 3.424 14h9.152a1.333 1.333 0 0 0 1.197-1.92ZM8.147 3.053c.066.033.12.086.152.152l4.576 9.314a.333.333 0 0 1-.299.48H3.424a.333.333 0 0 1-.299-.48l4.576-9.314a.333.333 0 0 1 .446-.152ZM8 12.166A.833.833 0 1 0 8 10.5a.833.833 0 0 0 0 1.666Zm.667-5.5a.667.667 0 0 0-1.334 0V9a.667.667 0 1 0 1.334 0V6.666Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="aDc6Yg"
+            >
+              Adicionar páginas não é suportado no tipo de design atual. Por favor, abra um design de Apresentação.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="jv_R6g"
+        style="--NZu1Zw: 16px;"
       >
         <span
-          class="khPe7Q"
+          class="JtE88A"
         >
-          Do something cool
+          <span
+            aria-hidden="true"
+            class="NA_Img dkWypw _6ti9_A"
+          >
+            <svg
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <defs>
+                <path
+                  d="M4 21A9 9 0 0 0 4 3a1 1 0 1 0 0 2 7 7 0 1 1 0 14 1 1 0 0 0 0 2z"
+                  id="_265464792__a"
+                />
+              </defs>
+              <use
+                fill="currentColor"
+                fill-rule="nonzero"
+                transform="matrix(-1 0 0 1 16 0)"
+                xlink:href="#_265464792__a"
+              />
+            </svg>
+          </span>
         </span>
-      </button>
-      <button
-        class="_5KtATA LQzFZw VgvqkQ _8ERLTg Z3nT2A LQzFZw VgvqkQ _4_iekA j34Zww aqbYPg _3FvZZg"
-        type="button"
-      >
-        <span
-          class="khPe7Q"
+        <p
+          class="aWBg0w aZskFA QxuLlQ"
         >
-          Open Canva Apps SDK docs
-        </span>
-      </button>
+          Carregando músicas...
+        </p>
+      </div>
     </div>
   </div>
   ,

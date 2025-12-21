@@ -20,6 +20,7 @@
     "noImplicitOverride": true,
     "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "rootDir": ".",
     "outDir": "dist",
     "strict": true,

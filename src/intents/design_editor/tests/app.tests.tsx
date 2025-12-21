@@ -2,10 +2,10 @@
 import { useFeatureSupport } from "@canva/app-hooks";
 import { TestAppI18nProvider } from "@canva/app-i18n-kit";
 import { TestAppUiProvider } from "@canva/app-ui-kit";
-import { addElementAtCursor, addElementAtPoint } from "@canva/design";
+import { addElementAtPoint } from "@canva/design";
 import type { Feature } from "@canva/platform";
 import { requestOpenExternalUrl } from "@canva/platform";
-import { fireEvent, render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import type { RenderResult } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { App } from "../app";
@@ -49,8 +49,12 @@ describe("Hello World Tests", () => {
   // });
 
   // this test demonstrates the use of a snapshot test
-  it("should have a consistent snapshot", () => {
+  it("should have a consistent snapshot", async () => {
     const result = renderInTestProvider(<App />);
+    // Wait for async operations (loading songs) to complete
+    await waitFor(() => {
+      expect(result.container).toBeTruthy();
+    });
     expect(result.container).toMatchSnapshot();
   });
 });

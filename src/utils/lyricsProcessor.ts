@@ -15,8 +15,8 @@ export interface SlideContent {
  */
 export function splitLyricsIntoSlides(
   lyrics: string[],
-  minLinesPerSlide: number = 3,
-  maxLinesPerSlide: number = 4,
+  minLinesPerSlide = 3,
+  maxLinesPerSlide = 4,
 ): SlideContent[] {
   if (lyrics.length === 0) {
     return [];
@@ -59,4 +59,3 @@ export function splitLyricsIntoSlides(
 
   return slides;
 }
-

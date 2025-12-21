@@ -1,3 +1,4 @@
+/* eslint-disable formatjs/no-literal-string-in-jsx */
 import {
   Alert,
   ColorSelector,
@@ -33,12 +34,15 @@ import {
 } from "../../config/songsConfig";
 import * as styles from "styles/components.css";
 
+// URL do tutorial no GitHub
+const TUTORIAL_URL =
+  "https://github.com/mmdfmateus/canva-alvo-songs-app/blob/main/tutorial.md";
+
 // Componente auxiliar para tooltip de ajuda
 const HelpTooltip = ({ tooltip }: { tooltip: string }) => (
   <Button
     variant="tertiary"
     icon={HelpCircleIcon}
-    size="small"
     ariaLabel={tooltip}
     tooltipLabel={tooltip}
   />
@@ -76,9 +80,7 @@ export const App = () => {
         });
 
         setSongs(loadedSongs);
-        console.log(`Loaded ${loadedSongs.length} songs`);
-      } catch (error) {
-        console.error("Error loading songs:", error);
+      } catch {
         // Error is already handled by loadSongs with local fallback
         // But we can show a warning if needed
         setError("Erro ao carregar músicas. Usando dados locais.");
@@ -100,6 +102,13 @@ export const App = () => {
       setError(undefined);
     }
   }, [isAddPageSupported]);
+
+  const handleTutorialClick = async () => {
+    await notification.addToast({
+      messageText: `Tutorial: ${TUTORIAL_URL}`,
+      timeoutMs: 10000,
+    });
+  };
 
   const handleSongSelect = async (song: Song) => {
     if (!isAddPageSupported) {
@@ -182,6 +191,24 @@ export const App = () => {
   return (
     <div className={styles.scrollContainer}>
       <Rows spacing="3u">
+        <Columns spacing="1u" alignY="center">
+          <Column width="content">
+            <Text size="small" tone="tertiary">
+              Precisa de ajuda?
+            </Text>
+          </Column>
+          <Column width="content">
+            <Button
+              variant="tertiary"
+              icon={HelpCircleIcon}
+              onClick={handleTutorialClick}
+              ariaLabel="Ver tutorial"
+            >
+              Tutorial
+            </Button>
+          </Column>
+        </Columns>
+
         {error && <Alert tone="critical">{error}</Alert>}
 
         {!isAddPageSupported && !error && (
@@ -294,6 +321,7 @@ export const App = () => {
                             value={minLinesPerSlide}
                             onChange={(valueAsNumber) => {
                               if (
+                                valueAsNumber !== undefined &&
                                 !isNaN(valueAsNumber) &&
                                 valueAsNumber > 0 &&
                                 valueAsNumber <= 10
@@ -319,6 +347,7 @@ export const App = () => {
                             value={maxLinesPerSlide}
                             onChange={(valueAsNumber) => {
                               if (
+                                valueAsNumber !== undefined &&
                                 !isNaN(valueAsNumber) &&
                                 valueAsNumber > 0 &&
                                 valueAsNumber <= 10

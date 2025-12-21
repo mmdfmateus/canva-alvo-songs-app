@@ -39,45 +39,40 @@ let songsCache: SongsCache | null = null;
  * @returns Promise that resolves to an array of songs
  */
 async function fetchSongsFromUrl(url: string): Promise<Song[]> {
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // Add any custom headers if needed (e.g., API keys)
-        // "Authorization": "Bearer YOUR_API_KEY",
-      },
-      // Add cache control if needed
-      cache: "no-cache", // Always fetch fresh data
-    });
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      // Add any custom headers if needed (e.g., API keys)
+      // "Authorization": "Bearer YOUR_API_KEY",
+    },
+    // Add cache control if needed
+    cache: "no-cache", // Always fetch fresh data
+  });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch songs: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    const data = await response.json();
-
-    // Validate that data is an array
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid songs data format: expected an array");
-    }
-
-    // Basic validation - ensure each song has required fields
-    const validSongs = data.filter(
-      (song) => song.id && song.title && Array.isArray(song.lyrics),
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch songs: ${response.status} ${response.statusText}`,
     );
-
-    if (validSongs.length === 0) {
-      throw new Error("No valid songs found in the response");
-    }
-
-    return validSongs as Song[];
-  } catch (error) {
-    console.error("Error fetching songs from URL:", error);
-    throw error;
   }
+
+  const data = await response.json();
+
+  // Validate that data is an array
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid songs data format: expected an array");
+  }
+
+  // Basic validation - ensure each song has required fields
+  const validSongs = data.filter(
+    (song) => song.id && song.title && Array.isArray(song.lyrics),
+  );
+
+  if (validSongs.length === 0) {
+    throw new Error("No valid songs found in the response");
+  }
+
+  return validSongs as Song[];
 }
 
 /**
@@ -89,8 +84,8 @@ async function loadLocalSongs(): Promise<Song[]> {
     // Dynamic import to allow webpack to handle the JSON file
     const songsModule = await import("../data/songs.json");
     return songsModule.default as Song[];
-  } catch (error) {
-    console.error("Error loading local songs:", error);
+  } catch {
+    // Error loading local songs
     throw new Error("Failed to load local songs fallback");
   }
 }
@@ -134,15 +129,13 @@ export async function loadSongs(
   } = config;
 
   // Check cache first if enabled
-  if (enableCache && isCacheValid(songsCache, cacheDurationMs)) {
-    console.log("Using cached songs data");
-    return songsCache!.data;
+  if (enableCache && songsCache && isCacheValid(songsCache, cacheDurationMs)) {
+    return songsCache.data;
   }
 
   // Try to fetch from external URL if provided
   if (songsUrl) {
     try {
-      console.log(`Fetching songs from: ${songsUrl}`);
       const songs = await fetchSongsFromUrl(songsUrl);
 
       // Update cache if enabled
@@ -153,21 +146,16 @@ export async function loadSongs(
           timestamp: now,
           expiresAt: now + cacheDurationMs,
         };
-        console.log(`Cached ${songs.length} songs for ${cacheDurationMs}ms`);
       }
 
       return songs;
-    } catch (error) {
-      console.warn(
-        "Failed to fetch songs from external URL, falling back to local:",
-        error,
-      );
+    } catch {
+      // Failed to fetch songs from external URL, falling back to local
       // Fall through to local fallback
     }
   }
 
   // Fallback to local songs
-  console.log("Loading songs from local fallback");
   const localSongs = await loadLocalSongs();
 
   // Update cache with local songs if enabled
@@ -189,7 +177,6 @@ export async function loadSongs(
  */
 export function clearSongsCache(): void {
   songsCache = null;
-  console.log("Songs cache cleared");
 }
 
 /**
@@ -214,4 +201,3 @@ export function getCacheStatus(): {
     expiresAt: songsCache.expiresAt,
   };
 }
-

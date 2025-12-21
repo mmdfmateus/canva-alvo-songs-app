@@ -1,3 +1,4 @@
+/* eslint-disable formatjs/no-literal-string-in-jsx */
 import { Button, Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
 import { useMemo, useState } from "react";
 import type { Song } from "../utils/lyricsProcessor";
@@ -16,7 +17,9 @@ export function SongBrowser({
   const [searchQuery, setSearchQuery] = useState("");
 
   // Helper function to check if artist is valid (not null, undefined, or empty)
-  const hasValidArtist = (artist: string | null | undefined): boolean => {
+  const hasValidArtist = (
+    artist: string | null | undefined,
+  ): artist is string => {
     return artist != null && artist.trim().length > 0;
   };
 
@@ -34,12 +37,16 @@ export function SongBrowser({
     }
 
     const query = searchQuery.toLowerCase().trim();
-    return songs.filter(
-      (song) =>
-        song.title.toLowerCase().includes(query) ||
-        (hasValidArtist(song.artist) &&
-          song.artist!.toLowerCase().includes(query)),
-    );
+    return songs.filter((song) => {
+      if (song.title.toLowerCase().includes(query)) {
+        return true;
+      }
+      const artist = song.artist;
+      if (hasValidArtist(artist)) {
+        return artist.toLowerCase().includes(query);
+      }
+      return false;
+    });
   }, [songs, searchQuery]);
 
   const handleSongSelect = (song: Song) => {
