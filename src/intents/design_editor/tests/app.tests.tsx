@@ -9,9 +9,7 @@ import type { ReactNode } from "react";
 import { App } from "../app";
 
 function renderInTestProvider(node: ReactNode): RenderResult {
-  return render(
-    <TestAppUiProvider>{node}</TestAppUiProvider>,
-  );
+  return render(<TestAppUiProvider>{node}</TestAppUiProvider>);
 }
 
 jest.mock("@canva/app-hooks");
