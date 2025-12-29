@@ -89,7 +89,7 @@ npm install
    - White centered text
    - Appropriate font sizing (48px for lyrics, 64px for titles)
    - Proper positioning and spacing
-4. **Rate Limiting**: Pages are added with 400ms delays to respect Canva's 3 pages/second limit
+4. **Rate Limiting**: Uses a sliding window rate limiter to respect Canva's 3 pages/second limit with minimal delays
 5. **Progress Feedback**: User sees real-time progress during creation
 
 ## 🔧 Technical Details
@@ -98,9 +98,11 @@ npm install
 
 The app handles Canva's platform limits:
 
-- **Rate Limiting**: Max 3 pages per second
-  - Solution: 400ms delay between page additions (~2.5 pages/second)
-  - Automatic retry on rate limit errors with 1 second wait
+- **Rate Limiting**: Max 3 pages per second (sliding window)
+  - Solution: Intelligent sliding window rate limiter that tracks recent page creations
+  - Dynamically calculates delays to minimize wait time while respecting limits
+  - Minimum 400ms between pages (~2.5 pages/second)
+  - Automatic retry on rate limit errors with exponential backoff (1.2 seconds)
 
 - **Quota Exceeded**: Maximum pages per design
   - Solution: Partial success reporting (shows how many pages were created)

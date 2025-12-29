@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   addPage,
   createRichtextRange,
@@ -28,8 +29,97 @@ export interface SlideStyleOptions {
 }
 
 // Rate limiting: Canva allows max 3 pages per second
-// We'll add a small delay to ensure we stay under the limit
-const RATE_LIMIT_DELAY_MS = 800; // ~1.25 pages per second to be safe
+// However, in practice, we're seeing rate limits even with 1.5+ second delays
+// The issue appears to be that Canva uses a longer rolling window (possibly 2-3 seconds)
+// or other API calls (like openDesign in getCurrentPageBackgroundColor) contribute to the limit
+// Using a very conservative approach: 2+ seconds between pages
+const MAX_PAGES_PER_SECOND = 1; // Very conservative: 1 page per second
+const MIN_DELAY_BETWEEN_PAGES_MS = 2000; // Minimum 2 seconds between pages (very conservative)
+const RATE_LIMIT_WINDOW_MS = 3000; // 3 second window (longer to account for server-side tracking)
+const SAFETY_BUFFER_MS = 200; // Additional safety buffer
+
+// Track recent page creation timestamps for rate limiting
+let recentPageCreations: number[] = [];
+
+/**
+ * Cleans up old timestamps outside the rate limit window
+ */
+function cleanupOldTimestamps(now: number): void {
+  const cutoff = now - RATE_LIMIT_WINDOW_MS;
+  const beforeCount = recentPageCreations.length;
+  recentPageCreations = recentPageCreations.filter((ts) => ts > cutoff);
+  const afterCount = recentPageCreations.length;
+  if (beforeCount !== afterCount) {
+    console.log(
+      `[Rate Limit] Cleaned up ${beforeCount - afterCount} old timestamps. Remaining: ${afterCount}`,
+    );
+  }
+}
+
+/**
+ * Calculates the delay needed before creating the next page to respect rate limits.
+ * Uses a sliding window approach to ensure we never exceed MAX_PAGES_PER_SECOND.
+ *
+ * @returns The delay in milliseconds before the next page can be created
+ */
+function calculateRateLimitDelay(): number {
+  const now = Date.now();
+  cleanupOldTimestamps(now);
+
+  console.log(
+    `[Rate Limit] Calculating delay. Recent creations in window: ${recentPageCreations.length}/${MAX_PAGES_PER_SECOND}`,
+  );
+
+  // If we have fewer than MAX_PAGES_PER_SECOND in the window, we can proceed
+  if (recentPageCreations.length < MAX_PAGES_PER_SECOND) {
+    // Ensure minimum delay between pages
+    if (recentPageCreations.length > 0) {
+      const lastCreation = recentPageCreations[recentPageCreations.length - 1];
+      if (lastCreation !== undefined) {
+        const timeSinceLastCreation = now - lastCreation;
+        console.log(
+          `[Rate Limit] Time since last creation: ${timeSinceLastCreation}ms (min: ${MIN_DELAY_BETWEEN_PAGES_MS}ms)`,
+        );
+        if (timeSinceLastCreation < MIN_DELAY_BETWEEN_PAGES_MS) {
+          const delay = MIN_DELAY_BETWEEN_PAGES_MS - timeSinceLastCreation;
+          console.log(`[Rate Limit] Need to wait ${delay}ms for minimum delay`);
+          return delay;
+        }
+      }
+    }
+    console.log(`[Rate Limit] No delay needed`);
+    return 0;
+  }
+
+  // We've hit the limit - wait until the oldest creation falls outside the window
+  const oldestCreation = recentPageCreations[0];
+  if (oldestCreation === undefined) {
+    // Should not happen, but fallback to minimum delay
+    console.warn(
+      `[Rate Limit] WARNING: Hit limit but oldestCreation is undefined. Using minimum delay.`,
+    );
+    return MIN_DELAY_BETWEEN_PAGES_MS;
+  }
+  const timeSinceOldest = now - oldestCreation;
+  const waitTime = RATE_LIMIT_WINDOW_MS - timeSinceOldest + SAFETY_BUFFER_MS;
+  const finalDelay = Math.max(waitTime, MIN_DELAY_BETWEEN_PAGES_MS);
+  console.log(
+    `[Rate Limit] HIT LIMIT! Time since oldest: ${timeSinceOldest}ms, window: ${RATE_LIMIT_WINDOW_MS}ms, calculated wait: ${waitTime}ms, final delay: ${finalDelay}ms`,
+  );
+  return finalDelay;
+}
+
+/**
+ * Records a page creation timestamp for rate limiting
+ */
+function recordPageCreation(): void {
+  const now = Date.now();
+  cleanupOldTimestamps(now);
+  recentPageCreations.push(now);
+  console.log(
+    `[Rate Limit] Recorded page creation at ${now}. Total in window: ${recentPageCreations.length}. Timestamps: [${recentPageCreations.map((ts) => now - ts).join(", ")}]ms ago`,
+  );
+}
 
 /**
  * Gets the background color of the current page in the Canva design.
@@ -149,7 +239,18 @@ async function createTitleSlide(
     Math.min(centeredTop, maxAllowedTop),
   );
 
+  // Wait for rate limit before creating page
+  const delay = calculateRateLimitDelay();
+  if (delay > 0) {
+    console.log(
+      `[Title Slide] Waiting ${delay}ms before creating title page...`,
+    );
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
   // Create the title page
+  console.log(`[Title Slide] Creating title page...`);
+  const titlePageStartTime = Date.now();
   await addPage({
     title: `Title: ${songTitle}`,
     elements: [
@@ -165,6 +266,14 @@ async function createTitleSlide(
       color: backgroundColor,
     },
   });
+  const titlePageEndTime = Date.now();
+
+  // Record the page creation AFTER the API call completes
+  // This ensures we track when Canva's server actually processed the request
+  recordPageCreation();
+  console.log(
+    `[Title Slide] Title page created successfully in ${titlePageEndTime - titlePageStartTime}ms`,
+  );
 }
 
 /**
@@ -213,8 +322,18 @@ export async function createSongSlides(
     let pagesCreated = 0;
     const totalSlides = slides.length + 1; // Include title slide in total
 
+    // Reset rate limit tracking at the start of a new batch
+    // This ensures we start with a clean slate
+    console.log(
+      `[createSongSlides] Starting new batch. Resetting rate limit tracking. Total slides: ${totalSlides}`,
+    );
+    recentPageCreations = [];
+
     // Create title slide first
     try {
+      console.log(
+        `[createSongSlides] Creating title slide (1/${totalSlides})...`,
+      );
       onProgress?.(1, totalSlides);
       await createTitleSlide(
         songTitle,
@@ -223,11 +342,18 @@ export async function createSongSlides(
         pageDimensions,
       );
       pagesCreated++;
-
-      // Add delay before creating lyrics slides
-      await new Promise((resolve) => setTimeout(resolve, RATE_LIMIT_DELAY_MS));
+      console.log(
+        `[createSongSlides] Title slide created successfully. Pages created: ${pagesCreated}`,
+      );
     } catch (titleError) {
+      console.error(
+        `[createSongSlides] Error creating title slide:`,
+        titleError,
+      );
       if (titleError instanceof CanvaError) {
+        console.error(
+          `[createSongSlides] CanvaError code: ${titleError.code}, message: ${titleError.message}`,
+        );
         if (titleError.code === "quota_exceeded") {
           return {
             success: false,
@@ -238,9 +364,22 @@ export async function createSongSlides(
           };
         }
         if (titleError.code === "rate_limited") {
-          // Wait and retry once
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          // If rate limited, wait longer and retry once
+          // Use exponential backoff: wait for the full window plus buffer
+          const retryDelay = RATE_LIMIT_WINDOW_MS + SAFETY_BUFFER_MS * 2; // Full window + extra buffer
+          console.warn(
+            `[createSongSlides] RATE LIMITED on title slide! Waiting ${retryDelay}ms before retry...`,
+          );
+          await new Promise((resolve) => setTimeout(resolve, retryDelay));
+
+          // Clear recent timestamps to reset the window
+          console.log(
+            `[createSongSlides] Resetting rate limit tracking for retry`,
+          );
+          recentPageCreations = [];
+
           try {
+            console.log(`[createSongSlides] Retrying title slide creation...`);
             await createTitleSlide(
               songTitle,
               artist,
@@ -248,10 +387,14 @@ export async function createSongSlides(
               pageDimensions,
             );
             pagesCreated++;
-            await new Promise((resolve) =>
-              setTimeout(resolve, RATE_LIMIT_DELAY_MS),
+            console.log(
+              `[createSongSlides] Title slide retry successful. Pages created: ${pagesCreated}`,
             );
-          } catch {
+          } catch (retryError) {
+            console.error(
+              `[createSongSlides] Title slide retry failed:`,
+              retryError,
+            );
             return {
               success: false,
               pagesCreated: 0,
@@ -269,6 +412,9 @@ export async function createSongSlides(
     }
 
     // Create lyrics slides
+    console.log(
+      `[createSongSlides] Starting lyrics slides creation (${slides.length} slides)...`,
+    );
     const lyricsResult = await createSlidesWithLyrics(
       slides,
       songTitle,
@@ -366,15 +512,22 @@ export async function createSlidesWithLyrics(
       const slide = slides[i];
       if (!slide) continue;
 
-      // Add delay between pages to respect rate limit (except for first page)
-      if (i > 0) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, RATE_LIMIT_DELAY_MS),
+      // Calculate and wait for rate limit delay
+      console.log(
+        `[Lyrics Slide ${i + 1}] Calculating rate limit delay before creating slide...`,
+      );
+      const delay = calculateRateLimitDelay();
+      if (delay > 0) {
+        // Report progress before delay to keep UX responsive
+        console.log(
+          `[Lyrics Slide ${i + 1}] Waiting ${delay}ms before creating slide...`,
         );
+        onProgress?.(i + 1, totalSlides);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      } else {
+        // Report progress if no delay needed
+        onProgress?.(i + 1, totalSlides);
       }
-
-      // Report progress
-      onProgress?.(i + 1, totalSlides);
 
       // Calculate text positioning with proper margins to avoid clipping
       const verticalPadding = pageDimensions.height * VERTICAL_PADDING_RATIO;
@@ -438,6 +591,8 @@ export async function createSlidesWithLyrics(
 
       // Create the page with background and text
       try {
+        console.log(`[Lyrics Slide ${i + 1}] Creating page...`);
+        const slideStartTime = Date.now();
         await addPage({
           title: `Slide ${i + 1}`,
           elements: [
@@ -453,11 +608,25 @@ export async function createSlidesWithLyrics(
             color: backgroundColor,
           },
         });
+        const slideEndTime = Date.now();
 
+        // Record the page creation AFTER the API call completes
+        // This ensures we track when Canva's server actually processed the request
+        recordPageCreation();
+        console.log(
+          `[Lyrics Slide ${i + 1}] Page created successfully in ${slideEndTime - slideStartTime}ms. Total pages: ${pagesCreated + 1}`,
+        );
         pagesCreated++;
       } catch (pageError) {
         // If we hit an error mid-process, return partial success
+        console.error(
+          `[Lyrics Slide ${i + 1}] Error creating page:`,
+          pageError,
+        );
         if (pageError instanceof CanvaError) {
+          console.error(
+            `[Lyrics Slide ${i + 1}] CanvaError code: ${pageError.code}, message: ${pageError.message}`,
+          );
           if (pageError.code === "quota_exceeded") {
             return {
               success: pagesCreated > 0,
@@ -472,9 +641,23 @@ export async function createSlidesWithLyrics(
             };
           }
           if (pageError.code === "rate_limited") {
-            // If rate limited, wait a bit longer and retry once
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            // If rate limited, wait longer and retry once
+            // Use exponential backoff: wait for the full window plus buffer
+            const retryDelay = RATE_LIMIT_WINDOW_MS + SAFETY_BUFFER_MS * 2; // Full window + extra buffer
+            console.warn(
+              `[Lyrics Slide ${i + 1}] RATE LIMITED! Waiting ${retryDelay}ms before retry...`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, retryDelay));
+
+            // Clear recent timestamps to reset the window
+            console.log(
+              `[Lyrics Slide ${i + 1}] Resetting rate limit tracking for retry`,
+            );
+            recentPageCreations = [];
+
             try {
+              console.log(`[Lyrics Slide ${i + 1}] Retrying page creation...`);
+              const retryStartTime = Date.now();
               await addPage({
                 title: `Slide ${i + 1}`,
                 elements: [
@@ -490,8 +673,19 @@ export async function createSlidesWithLyrics(
                   color: backgroundColor,
                 },
               });
+              const retryEndTime = Date.now();
+
+              // Record AFTER the retry API call completes
+              recordPageCreation();
+              console.log(
+                `[Lyrics Slide ${i + 1}] Retry successful in ${retryEndTime - retryStartTime}ms. Total pages: ${pagesCreated + 1}`,
+              );
               pagesCreated++;
-            } catch {
+            } catch (retryError) {
+              console.error(
+                `[Lyrics Slide ${i + 1}] Retry failed:`,
+                retryError,
+              );
               return {
                 success: pagesCreated > 0,
                 pagesCreated,
