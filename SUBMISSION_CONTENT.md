@@ -1,353 +1,353 @@
-# 📦 Complete Submission Content Package
+# 📦 Pacote Completo de Conteúdo para Submissão
 
-This document contains all the content needed for submitting your Canva app to the Apps Marketplace.
+Este documento contém todo o conteúdo necessário para submeter seu app Canva ao Apps Marketplace.
 
 ---
 
-## 📝 1. App Listing Content
+## 📝 1. Conteúdo da Listagem do App
 
-### App Name
+### Nome do App
 
-**Alvo Songs - Automatic Lyrics Slides**
+**Alvo Songs - Slides Automáticos de Letras**
 
-_Alternative options:_
+_Opções alternativas:_
 
 - Alvo Songs
-- Lyrics Slides Generator
-- Song Lyrics to Slides
+- Gerador de Slides de Letras
+- Letras de Música para Slides
 
-### Short Description (1-2 sentences)
+### Descrição Curta (1-2 frases)
 
-**Transform song lyrics into beautiful presentation slides automatically. Browse a curated collection of songs, select one, and instantly generate styled slides with customizable colors and formatting.**
+**Transforme letras de música em lindos slides de apresentação automaticamente. Navegue por uma coleção curada de músicas, selecione uma e gere instantaneamente slides estilizados com cores e formatação personalizáveis.**
 
-### Full Description
+### Descrição Completa
 
-**Create professional presentation slides from song lyrics in seconds!**
+**Crie slides de apresentação profissionais a partir de letras de música em segundos!**
 
-Alvo Songs is a powerful Canva app that automates the creation of presentation slides from song lyrics. Perfect for worship services, music classes, karaoke events, or any presentation that needs song lyrics.
+Alvo Songs é um poderoso app Canva que automatiza a criação de slides de apresentação a partir de letras de música. Perfeito para cultos, aulas de música, eventos de karaokê ou qualquer apresentação que precise de letras de música.
 
-**Key Features:**
+**Principais Recursos:**
 
-✨ **Instant Slide Generation**
+✨ **Geração Instantânea de Slides**
 
-- Automatically splits song lyrics into perfectly formatted slides
-- Creates a dedicated title slide with song name and artist
-- Configurable lines per slide (3-10 lines)
-- Smart text wrapping and spacing
+- Divide automaticamente letras de música em slides perfeitamente formatados
+- Cria um slide de título dedicado com nome da música e artista
+- Linhas por slide configuráveis (3-10 linhas)
+- Quebra de texto e espaçamento inteligentes
 
-🎨 **Customizable Styling**
+🎨 **Estilização Personalizável**
 
-- Choose your own background and text colors
-- Adapts to your presentation's existing style
-- Professional typography and layout
-- Centered text with optimal font sizing
+- Escolha suas próprias cores de fundo e texto
+- Adapta-se ao estilo existente da sua apresentação
+- Tipografia e layout profissionais
+- Texto centralizado com tamanho de fonte otimizado
 
-🔍 **Easy Song Discovery**
+🔍 **Descoberta Fácil de Músicas**
 
-- Browse a curated collection of songs
-- Search by song title or artist name
-- Fast, responsive search interface
+- Navegue por uma coleção curada de músicas
+- Pesquise por título da música ou nome do artista
+- Interface de busca rápida e responsiva
 
-⚡ **Smart Performance**
+⚡ **Performance Inteligente**
 
-- Automatic rate limiting to respect Canva's API limits
-- Real-time progress tracking during slide creation
-- Graceful error handling with partial success reporting
-- Works seamlessly with Canva's presentation designs
+- Limitação automática de taxa para respeitar os limites da API do Canva
+- Acompanhamento de progresso em tempo real durante a criação de slides
+- Tratamento elegante de erros com relatório de sucesso parcial
+- Funciona perfeitamente com designs de apresentação do Canva
 
-📱 **Reliable & Fast**
+📱 **Confiável e Rápido**
 
-- Loads songs from reliable cloud storage
-- Automatic fallback to local data if needed
-- Efficient caching for quick access
-- Optimized for both short and long songs
+- Carrega músicas de armazenamento em nuvem confiável
+- Fallback automático para dados locais se necessário
+- Cache eficiente para acesso rápido
+- Otimizado para músicas curtas e longas
 
-**Perfect For:**
+**Perfeito Para:**
 
-- Worship leaders creating song slides
-- Music teachers preparing class materials
-- Event organizers setting up karaoke presentations
-- Anyone who needs professional lyrics slides quickly
+- Líderes de louvor criando slides de músicas
+- Professores de música preparando materiais de aula
+- Organizadores de eventos montando apresentações de karaokê
+- Qualquer pessoa que precise de slides profissionais de letras rapidamente
 
-**How It Works:**
+**Como Funciona:**
 
-1. Open a Canva Presentation design
-2. Browse or search for a song
-3. Customize colors and lines per slide (optional)
-4. Click to generate slides automatically
-5. Your slides are ready to use!
+1. Abra um design de Apresentação do Canva
+2. Navegue ou pesquise por uma música
+3. Personalize cores e linhas por slide (opcional)
+4. Clique para gerar slides automaticamente
+5. Seus slides estão prontos para usar!
 
-No manual formatting, no copy-pasting, no tedious work. Just select a song and watch your slides appear automatically.
-
----
-
-## 🎯 2. Benefits for Users
-
-### Primary Benefits
-
-1. **Saves Time**
-   - Create multiple slides in seconds instead of minutes
-   - No manual formatting or text placement
-   - Automatic text wrapping and spacing
-
-2. **Professional Results**
-   - Consistent styling across all slides
-   - Optimal font sizes and positioning
-   - Clean, readable layouts
-
-3. **Easy to Use**
-   - Simple, intuitive interface
-   - No technical knowledge required
-   - Works with any Canva Presentation
-
-4. **Flexible Customization**
-   - Choose your own colors
-   - Adjust lines per slide to fit your needs
-   - Adapts to your presentation style
-
-5. **Reliable Performance**
-   - Handles long songs automatically
-   - Smart error recovery
-   - Works even with network issues (local fallback)
+Sem formatação manual, sem copiar e colar, sem trabalho tedioso. Apenas selecione uma música e veja seus slides aparecerem automaticamente.
 
 ---
 
-## 📋 3. Instructions for Use
+## 🎯 2. Benefícios para Usuários
 
-### Getting Started
+### Benefícios Principais
 
-1. **Open a Presentation Design**
-   - The app works with Canva Presentation designs
-   - Create a new presentation or open an existing one
+1. **Economiza Tempo**
+   - Crie múltiplos slides em segundos em vez de minutos
+   - Sem formatação manual ou posicionamento de texto
+   - Quebra de texto e espaçamento automáticos
 
-2. **Open the App**
-   - Find "Alvo Songs" in the Apps panel
-   - Click to open the app
+2. **Resultados Profissionais**
+   - Estilização consistente em todos os slides
+   - Tamanhos de fonte e posicionamento otimizados
+   - Layouts limpos e legíveis
 
-3. **Browse Songs**
-   - Use the search bar to find songs by title or artist
-   - Scroll through the available songs
-   - Click on a song to select it
+3. **Fácil de Usar**
+   - Interface simples e intuitiva
+   - Não requer conhecimento técnico
+   - Funciona com qualquer Apresentação do Canva
 
-4. **Customize (Optional)**
-   - Click "Settings" to expand customization options
-   - Choose background and text colors
-   - Adjust minimum and maximum lines per slide
-   - Default settings work great for most cases
+4. **Personalização Flexível**
+   - Escolha suas próprias cores
+   - Ajuste linhas por slide para atender suas necessidades
+   - Adapta-se ao estilo da sua apresentação
 
-5. **Generate Slides**
-   - Click on a song to start generating slides
-   - Watch the progress bar as slides are created
-   - Slides appear automatically in your presentation
-
-6. **Edit as Needed**
-   - All slides are fully editable in Canva
-   - Adjust colors, fonts, or layout as desired
-   - Add images or other elements
-
-### Tips for Best Results
-
-- **For Short Songs**: Use 4-6 lines per slide for better readability
-- **For Long Songs**: Use 3-4 lines per slide to fit more content
-- **Color Contrast**: Ensure good contrast between background and text colors
-- **Presentation Style**: The app adapts to your presentation's existing style
+5. **Performance Confiável**
+   - Lida com músicas longas automaticamente
+   - Recuperação inteligente de erros
+   - Funciona mesmo com problemas de rede (fallback local)
 
 ---
 
-## 🎨 4. Visual Assets Specifications
+## 📋 3. Instruções de Uso
 
-### App Icon (512x512 pixels, PNG)
+### Começando
 
-**Design Guidelines:**
+1. **Abra um Design de Apresentação**
+   - O app funciona com designs de Apresentação do Canva
+   - Crie uma nova apresentação ou abra uma existente
 
-- **Theme**: Music/lyrics focused
-- **Colors**: Use vibrant, professional colors (consider orange/white theme to match app)
-- **Elements**: Consider including:
-  - Musical note icon
-  - Text/slides representation
-  - Clean, modern design
-- **Style**: Flat design, clear and recognizable at small sizes
-- **Background**: Solid color or subtle gradient
-- **Text**: Avoid text if possible, or use very large, readable text
+2. **Abra o App**
+   - Encontre "Alvo Songs" no painel de Apps
+   - Clique para abrir o app
 
-**Design Suggestions:**
+3. **Navegue pelas Músicas**
+   - Use a barra de pesquisa para encontrar músicas por título ou artista
+   - Role pela lista de músicas disponíveis
+   - Clique em uma música para selecioná-la
 
-1. **Option A**: Musical note with slide/document icon
-2. **Option B**: Stylized "A" for Alvo with music elements
-3. **Option C**: Microphone with text lines/slides
-4. **Option D**: Simple, elegant music note with slide background
+4. **Personalize (Opcional)**
+   - Clique em "Configurações" para expandir opções de personalização
+   - Escolha cores de fundo e texto
+   - Ajuste linhas mínimas e máximas por slide
+   - As configurações padrão funcionam bem na maioria dos casos
 
-**Tools to Create:**
+5. **Gere os Slides**
+   - Clique em uma música para começar a gerar slides
+   - Observe a barra de progresso enquanto os slides são criados
+   - Os slides aparecem automaticamente na sua apresentação
 
-- Canva (use their icon templates)
+6. **Edite Conforme Necessário**
+   - Todos os slides são totalmente editáveis no Canva
+   - Ajuste cores, fontes ou layout conforme desejado
+   - Adicione imagens ou outros elementos
+
+### Dicas para Melhores Resultados
+
+- **Para Músicas Curtas**: Use 4-6 linhas por slide para melhor legibilidade
+- **Para Músicas Longas**: Use 3-4 linhas por slide para caber mais conteúdo
+- **Contraste de Cores**: Garanta bom contraste entre cores de fundo e texto
+- **Estilo da Apresentação**: O app se adapta ao estilo existente da sua apresentação
+
+---
+
+## 🎨 4. Especificações de Ativos Visuais
+
+### Ícone do App (512x512 pixels, PNG)
+
+**Diretrizes de Design:**
+
+- **Tema**: Focado em música/letras
+- **Cores**: Use cores vibrantes e profissionais (considere tema laranja/branco para combinar com o app)
+- **Elementos**: Considere incluir:
+  - Ícone de nota musical
+  - Representação de texto/slides
+  - Design limpo e moderno
+- **Estilo**: Design flat, claro e reconhecível em tamanhos pequenos
+- **Fundo**: Cor sólida ou gradiente sutil
+- **Texto**: Evite texto se possível, ou use texto muito grande e legível
+
+**Sugestões de Design:**
+
+1. **Opção A**: Nota musical com ícone de slide/documento
+2. **Opção B**: "A" estilizado para Alvo com elementos musicais
+3. **Opção C**: Microfone com linhas de texto/slides
+4. **Opção D**: Nota musical simples e elegante com fundo de slide
+
+**Ferramentas para Criar:**
+
+- Canva (use os modelos de ícone deles)
 - Figma
 - Adobe Illustrator
-- Online icon generators
+- Geradores de ícone online
 
-### Featured Image (1920x1080 pixels, PNG or JPG)
+### Imagem em Destaque (1920x1080 pixels, PNG ou JPG)
 
-**Design Guidelines:**
+**Diretrizes de Design:**
 
-- **Layout**: Show the app in action
-- **Elements to Include**:
-  - Screenshot or mockup of the app interface
-  - Example slides showing lyrics
-  - Clean, professional presentation
-- **Text Overlay**:
-  - App name: "Alvo Songs"
-  - Tagline: "Automatic Lyrics Slides"
-  - Key benefit: "Create slides in seconds"
-- **Colors**: Match app theme (orange/white or your brand colors)
-- **Style**: Modern, clean, professional
+- **Layout**: Mostre o app em ação
+- **Elementos para Incluir**:
+  - Captura de tela ou mockup da interface do app
+  - Slides de exemplo mostrando letras
+  - Apresentação limpa e profissional
+- **Sobreposição de Texto**:
+  - Nome do app: "Alvo Songs"
+  - Tagline: "Slides Automáticos de Letras"
+  - Benefício principal: "Crie slides em segundos"
+- **Cores**: Combine com o tema do app (laranja/branco ou suas cores de marca)
+- **Estilo**: Moderno, limpo, profissional
 
-**Layout Suggestions:**
+**Sugestões de Layout:**
 
-1. **Left Side**: App interface screenshot
-2. **Right Side**: Example slides with lyrics
-3. **Background**: Subtle gradient or pattern
-4. **Text**: Large, readable, well-positioned
+1. **Lado Esquerdo**: Captura de tela da interface do app
+2. **Lado Direito**: Slides de exemplo com letras
+3. **Fundo**: Gradiente sutil ou padrão
+4. **Texto**: Grande, legível, bem posicionado
 
-### Screenshots (3-5 images, various sizes)
+### Capturas de Tela (3-5 imagens, vários tamanhos)
 
-**Screenshot 1: Main Interface**
+**Captura de Tela 1: Interface Principal**
 
-- Show the song browser with search
-- Highlight the clean, easy-to-use interface
-- Include a few songs visible in the list
+- Mostre o navegador de músicas com pesquisa
+- Destaque a interface limpa e fácil de usar
+- Inclua algumas músicas visíveis na lista
 
-**Screenshot 2: Settings Panel**
+**Captura de Tela 2: Painel de Configurações**
 
-- Show the customization options
-- Color selectors visible
-- Lines per slide configuration
+- Mostre as opções de personalização
+- Seletores de cor visíveis
+- Configuração de linhas por slide
 
-**Screenshot 3: Slide Generation in Progress**
+**Captura de Tela 3: Geração de Slides em Progresso**
 
-- Show the progress bar
-- Demonstrate real-time feedback
-- Show slides being created
+- Mostre a barra de progresso
+- Demonstre feedback em tempo real
+- Mostre slides sendo criados
 
-**Screenshot 4: Final Result**
+**Captura de Tela 4: Resultado Final**
 
-- Show completed slides in a Canva presentation
-- Multiple slides visible
-- Professional, clean appearance
+- Mostre slides completos em uma apresentação Canva
+- Múltiplos slides visíveis
+- Aparência profissional e limpa
 
-**Screenshot 5: Search Functionality**
+**Captura de Tela 5: Funcionalidade de Pesquisa**
 
-- Show search results
-- Highlight the search feature
-- Demonstrate filtering
+- Mostre resultados de pesquisa
+- Destaque o recurso de pesquisa
+- Demonstre filtragem
 
-**Screenshot Guidelines:**
+**Diretrizes de Captura de Tela:**
 
-- Use actual app screenshots (not mockups)
-- Add subtle annotations/arrows if helpful
-- Ensure text is readable
-- Use consistent styling across all screenshots
-- Remove any personal/sensitive information
-
----
-
-## 🧪 5. Testing Instructions
-
-### For Canva Reviewers
-
-**App Overview:**
-Alvo Songs is a Design Editor intent app that automatically creates presentation slides from song lyrics. The app loads songs from an external S3 bucket (with local fallback) and generates styled slides in the user's Canva presentation.
-
-**Testing Environment:**
-
-- **Design Type**: Must be a **Presentation** design (not other design types)
-- **Browser**: Any modern browser (Chrome, Firefox, Safari, Edge)
-- **Canva Account**: Any Canva account (free or paid)
-
-**Step-by-Step Testing Instructions:**
-
-1. **Open a Presentation Design**
-   - Create a new Canva Presentation
-   - Or open an existing Presentation design
-   - Note: The app will show an error if opened in other design types
-
-2. **Access the App**
-   - Open the Apps panel in Canva
-   - Find "Alvo Songs" in the app list
-   - Click to open the app
-
-3. **Test Song Loading**
-   - The app should load songs automatically
-   - You should see a list of songs appear
-   - If songs don't load, the app falls back to local data (this is expected behavior)
-
-4. **Test Search Functionality**
-   - Type in the search box
-   - Verify songs filter by title or artist
-   - Clear search and verify all songs reappear
-
-5. **Test Settings Panel**
-   - Click "Settings" to expand
-   - Test color selectors (background and text)
-   - Adjust lines per slide (min and max)
-   - Verify settings are saved during session
-
-6. **Test Slide Generation**
-   - Select a song from the list
-   - Watch the progress indicator
-   - Verify slides are created in the presentation
-   - Check that slides have:
-     - Title slide with song name (and artist if available)
-     - Lyrics slides with proper formatting
-     - Correct colors (if customized)
-     - Appropriate number of lines per slide
-
-7. **Test Error Handling**
-   - Try generating slides for a very long song
-   - Verify error messages are clear
-   - Check partial success reporting (if some slides are created)
-
-8. **Test Edge Cases**
-   - Search for a non-existent song
-   - Try with minimum/maximum lines per slide
-   - Test with different color combinations
-   - Verify app works in both light and dark Canva themes
-
-**Expected Behavior:**
-
-- ✅ Songs load automatically (from S3 or local fallback)
-- ✅ Search filters songs correctly
-- ✅ Settings can be customized
-- ✅ Slides are created with proper formatting
-- ✅ Progress indicator shows during creation
-- ✅ Error messages are clear and helpful
-- ✅ App shows appropriate message if not in Presentation design
-
-**Known Limitations:**
-
-- App only works with Presentation designs (not other design types)
-- Requires internet connection for S3 songs (falls back to local if unavailable)
-- Rate limiting: Canva allows max 3 pages/second (app handles this automatically)
-
-**External Dependencies:**
-
-- **S3 Bucket**: `https://alvo-songs.s3.sa-east-1.amazonaws.com/songs.json`
-  - This is optional - app works with local fallback if S3 is unavailable
-  - CORS is configured to allow Canva app origins
-  - No authentication required (public read access)
-
-**No Authentication Required:**
-This app does not require user authentication or external platform credentials. All functionality is available immediately.
+- Use capturas de tela reais do app (não mockups)
+- Adicione anotações/setas sutis se útil
+- Garanta que o texto seja legível
+- Use estilo consistente em todas as capturas de tela
+- Remova qualquer informação pessoal/sensível
 
 ---
 
-## 📊 6. Categories and Tags
+## 🧪 5. Instruções de Teste
 
-### Recommended Categories
+### Para Revisores do Canva
 
-- **Productivity**
-- **Design Tools**
-- **Content Creation**
+**Visão Geral do App:**
+Alvo Songs é um app de intent Design Editor que cria automaticamente slides de apresentação a partir de letras de música. O app carrega músicas de um bucket S3 externo (com fallback local) e gera slides estilizados na apresentação Canva do usuário.
 
-### Suggested Tags
+**Ambiente de Teste:**
+
+- **Tipo de Design**: Deve ser um design de **Apresentação** (não outros tipos de design)
+- **Navegador**: Qualquer navegador moderno (Chrome, Firefox, Safari, Edge)
+- **Conta Canva**: Qualquer conta Canva (gratuita ou paga)
+
+**Instruções de Teste Passo a Passo:**
+
+1. **Abra um Design de Apresentação**
+   - Crie uma nova Apresentação Canva
+   - Ou abra um design de Apresentação existente
+   - Nota: O app mostrará um erro se aberto em outros tipos de design
+
+2. **Acesse o App**
+   - Abra o painel de Apps no Canva
+   - Encontre "Alvo Songs" na lista de apps
+   - Clique para abrir o app
+
+3. **Teste o Carregamento de Músicas**
+   - O app deve carregar músicas automaticamente
+   - Você deve ver uma lista de músicas aparecer
+   - Se as músicas não carregarem, o app faz fallback para dados locais (este é o comportamento esperado)
+
+4. **Teste a Funcionalidade de Pesquisa**
+   - Digite na caixa de pesquisa
+   - Verifique se as músicas são filtradas por título ou artista
+   - Limpe a pesquisa e verifique se todas as músicas reaparecem
+
+5. **Teste o Painel de Configurações**
+   - Clique em "Configurações" para expandir
+   - Teste os seletores de cor (fundo e texto)
+   - Ajuste linhas por slide (mín e máx)
+   - Verifique se as configurações são salvas durante a sessão
+
+6. **Teste a Geração de Slides**
+   - Selecione uma música da lista
+   - Observe o indicador de progresso
+   - Verifique se os slides são criados na apresentação
+   - Verifique se os slides têm:
+     - Slide de título com nome da música (e artista se disponível)
+     - Slides de letras com formatação adequada
+     - Cores corretas (se personalizadas)
+     - Número apropriado de linhas por slide
+
+7. **Teste o Tratamento de Erros**
+   - Tente gerar slides para uma música muito longa
+   - Verifique se as mensagens de erro são claras
+   - Verifique o relatório de sucesso parcial (se alguns slides forem criados)
+
+8. **Teste Casos Extremos**
+   - Pesquise por uma música inexistente
+   - Tente com linhas mínimas/máximas por slide
+   - Teste com diferentes combinações de cores
+   - Verifique se o app funciona em temas claros e escuros do Canva
+
+**Comportamento Esperado:**
+
+- ✅ Músicas carregam automaticamente (do S3 ou fallback local)
+- ✅ A pesquisa filtra músicas corretamente
+- ✅ As configurações podem ser personalizadas
+- ✅ Os slides são criados com formatação adequada
+- ✅ O indicador de progresso mostra durante a criação
+- ✅ As mensagens de erro são claras e úteis
+- ✅ O app mostra mensagem apropriada se não estiver em design de Apresentação
+
+**Limitações Conhecidas:**
+
+- O app só funciona com designs de Apresentação (não outros tipos de design)
+- Requer conexão com internet para músicas S3 (faz fallback para local se indisponível)
+- Limitação de taxa: Canva permite máx 3 páginas/segundo (o app lida com isso automaticamente)
+
+**Dependências Externas:**
+
+- **Bucket S3**: `https://alvo-songs.s3.sa-east-1.amazonaws.com/songs.json`
+  - Isso é opcional - o app funciona com fallback local se o S3 estiver indisponível
+  - CORS está configurado para permitir origens de apps Canva
+  - Nenhuma autenticação necessária (acesso de leitura público)
+
+**Nenhuma Autenticação Necessária:**
+Este app não requer autenticação de usuário ou credenciais de plataforma externa. Toda a funcionalidade está disponível imediatamente.
+
+---
+
+## 📊 6. Categorias e Tags
+
+### Categorias Recomendadas
+
+- **Produtividade**
+- **Ferramentas de Design**
+- **Criação de Conteúdo**
+
+### Tags Sugeridas
 
 - lyrics
 - songs
@@ -362,77 +362,77 @@ This app does not require user authentication or external platform credentials. 
 
 ---
 
-## 🔗 7. Support Information
+## 🔗 7. Informações de Suporte
 
-### Support URL (if applicable)
+### URL de Suporte (se aplicável)
 
-_Leave blank or provide your support URL_
+_Deixe em branco ou forneça sua URL de suporte_
 
-### Privacy Policy URL (if applicable)
+### URL da Política de Privacidade (se aplicável)
 
-_Leave blank or provide your privacy policy URL_
+_Deixe em branco ou forneça sua URL de política de privacidade_
 
-### Terms of Service URL (if applicable)
+### URL dos Termos de Serviço (se aplicável)
 
-_Leave blank or provide your terms of service URL_
-
----
-
-## ✅ 8. Pre-Submission Checklist
-
-Before submitting, verify:
-
-- [ ] App name is clear and descriptive
-- [ ] All descriptions are proofread (no typos)
-- [ ] App icon is 512x512 PNG
-- [ ] Featured image is 1920x1080 PNG/JPG
-- [ ] 3-5 screenshots are prepared
-- [ ] Testing instructions are complete
-- [ ] No external links in descriptions (per Canva guidelines)
-- [ ] All content is in English (primary language)
-- [ ] App works in both light and dark themes
-- [ ] Production bundle is built and tested
-- [ ] Development URL is cleared
-- [ ] S3 CORS is configured (if using external songs)
+_Deixe em branco ou forneça sua URL de termos de serviço_
 
 ---
 
-## 📝 9. Additional Notes for Reviewers
+## ✅ 8. Checklist Pré-Submissão
 
-**App Purpose:**
-This app automates the creation of presentation slides from song lyrics, saving users significant time and ensuring professional formatting.
+Antes de submeter, verifique:
 
-**Technical Implementation:**
-
-- Uses Design Editor intent
-- Loads songs from S3 (with local fallback)
-- Implements proper rate limiting
-- Handles errors gracefully
-- Follows Canva design guidelines
-
-**User Value:**
-
-- Saves time (minutes to seconds)
-- Ensures consistent, professional formatting
-- Easy to use (no technical knowledge required)
-- Flexible customization options
-
-**Compliance:**
-
-- Follows Canva design guidelines
-- Uses App UI Kit components
-- Implements proper error handling
-- No external authentication required
-- Respects Canva API rate limits
+- [ ] O nome do app é claro e descritivo
+- [ ] Todas as descrições foram revisadas (sem erros de digitação)
+- [ ] O ícone do app é PNG 512x512
+- [ ] A imagem em destaque é PNG/JPG 1920x1080
+- [ ] 3-5 capturas de tela estão preparadas
+- [ ] As instruções de teste estão completas
+- [ ] Nenhum link externo nas descrições (conforme diretrizes do Canva)
+- [ ] Todo o conteúdo está em inglês (idioma principal)
+- [ ] O app funciona em temas claros e escuros
+- [ ] O bundle de produção foi construído e testado
+- [ ] A URL de desenvolvimento foi limpa
+- [ ] O CORS do S3 está configurado (se usando músicas externas)
 
 ---
 
-**Ready for Submission!** 🚀
+## 📝 9. Notas Adicionais para Revisores
 
-All content is prepared. Next steps:
+**Propósito do App:**
+Este app automatiza a criação de slides de apresentação a partir de letras de música, economizando tempo significativo aos usuários e garantindo formatação profissional.
 
-1. Create visual assets (icon, featured image, screenshots)
-2. Build production bundle
-3. Upload to Developer Portal
-4. Fill in app listing details using this content
-5. Submit for review
+**Implementação Técnica:**
+
+- Usa intent Design Editor
+- Carrega músicas do S3 (com fallback local)
+- Implementa limitação de taxa adequada
+- Lida com erros elegantemente
+- Segue diretrizes de design do Canva
+
+**Valor para o Usuário:**
+
+- Economiza tempo (minutos para segundos)
+- Garante formatação consistente e profissional
+- Fácil de usar (não requer conhecimento técnico)
+- Opções de personalização flexíveis
+
+**Conformidade:**
+
+- Segue diretrizes de design do Canva
+- Usa componentes App UI Kit
+- Implementa tratamento adequado de erros
+- Nenhuma autenticação externa necessária
+- Respeita limites de taxa da API do Canva
+
+---
+
+**Pronto para Submissão!** 🚀
+
+Todo o conteúdo está preparado. Próximos passos:
+
+1. Crie ativos visuais (ícone, imagem em destaque, capturas de tela)
+2. Construa o bundle de produção
+3. Faça upload no Developer Portal
+4. Preencha os detalhes da listagem do app usando este conteúdo
+5. Submeta para revisão

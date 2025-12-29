@@ -35,7 +35,7 @@ import * as styles from "styles/components.css";
 
 // URL do tutorial no GitHub
 const TUTORIAL_URL =
-  "https://github.com/mmdfmateus/canva-alvo-songs-app/blob/main/tutorial.md";
+  "https://github.com/mmdfmateus/canva-alvo-songs-app/blob/master/tutorial.md";
 
 // Componente auxiliar para tooltip de ajuda
 const HelpTooltip = ({ tooltip }: { tooltip: string }) => (
