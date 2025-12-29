@@ -116,3 +116,4 @@ Antes de finalizar, verifique:
 - Se uma música tiver múltiplos slides de letras, combine-os em uma única entrada.
 - Mantenha a ordem cronológica das músicas conforme aparecem no PDF.
 
+

@@ -5,11 +5,13 @@ Based on [Canva's official documentation](https://www.canva.dev/docs/apps), here
 ## ✅ What's Allowed
 
 ### 1. HTTPS URLs
+
 - ✅ **S3 HTTPS URLs are allowed** - Your app can fetch from `https://*.s3.*.amazonaws.com` URLs
 - ✅ Canva's Content Security Policy allows `connect-src https:` which includes S3
 - ✅ Your current URL format is correct: `https://alvo-songs.s3.sa-east-1.amazonaws.com/songs.json`
 
 ### 2. Fetch API
+
 - ✅ Using `fetch()` API is the standard way to load external data
 - ✅ Your implementation in `songsLoader.ts` is correct
 
@@ -38,10 +40,7 @@ Configure your S3 bucket CORS policy with:
   {
     "AllowedHeaders": ["*"],
     "AllowedMethods": ["GET", "HEAD"],
-    "AllowedOrigins": [
-      "https://app-*.canva-apps.com",
-      "https://*.canva.com"
-    ],
+    "AllowedOrigins": ["https://app-*.canva-apps.com", "https://*.canva.com"],
     "ExposeHeaders": [],
     "MaxAgeSeconds": 3000
   }
@@ -49,6 +48,7 @@ Configure your S3 bucket CORS policy with:
 ```
 
 **Important Notes:**
+
 - Use wildcard `*` for `AllowedOrigins` if you want to allow all Canva apps
 - For production, consider restricting to specific app IDs for better security
 - `AllowedMethods` should include at least `GET` (and `HEAD` for preflight requests)
@@ -56,12 +56,14 @@ Configure your S3 bucket CORS policy with:
 #### How to Configure S3 CORS
 
 **Via AWS Console:**
+
 1. Go to your S3 bucket → **Permissions** tab
 2. Scroll to **Cross-origin resource sharing (CORS)**
 3. Click **Edit** and paste the JSON configuration above
 4. Save changes
 
 **Via AWS CLI:**
+
 ```bash
 # Create cors.json file with the configuration above
 aws s3api put-bucket-cors \
@@ -80,6 +82,7 @@ aws s3api put-bucket-cors \
 Your S3 object must be publicly readable (or use signed URLs):
 
 **Option A: Public Read (Simpler)**
+
 ```bash
 aws s3 cp songs.json s3://alvo-songs/songs.json \
   --acl public-read \
@@ -87,6 +90,7 @@ aws s3 cp songs.json s3://alvo-songs/songs.json \
 ```
 
 **Option B: Signed URLs (More Secure)**
+
 - Generate signed URLs with expiration
 - Rotate URLs periodically
 - More complex but more secure
@@ -104,18 +108,22 @@ aws s3 cp songs.json s3://alvo-songs/songs.json \
 ## 🚫 What's NOT Allowed
 
 ### 1. HTTP (Non-HTTPS) URLs
+
 - ❌ `http://alvo-songs.s3.amazonaws.com/...` - Will be blocked
 - ✅ `https://alvo-songs.s3.amazonaws.com/...` - Allowed
 
 ### 2. Loading JavaScript from External Sources
+
 - ❌ Cannot load `.js` files from S3 (CSP restriction)
 - ✅ Can load JSON, images, fonts, audio, video
 
 ### 3. Loading CSS Stylesheets
+
 - ❌ Cannot load `.css` files from S3
 - ✅ Inline CSS is allowed
 
 ### 4. Frames and Web Workers
+
 - ❌ Cannot use iframes pointing to S3
 - ❌ Cannot use Web Workers from S3
 
@@ -149,6 +157,7 @@ curl -I -H "Origin: https://app-abc123.canva-apps.com" \
 ```
 
 Look for:
+
 ```
 Access-Control-Allow-Origin: https://app-abc123.canva-apps.com
 ```
@@ -156,6 +165,7 @@ Access-Control-Allow-Origin: https://app-abc123.canva-apps.com
 ### Method 3: CORS Testing Tool
 
 Use online tools like:
+
 - https://www.test-cors.org/
 - https://cors-test.codehappy.dev/
 
@@ -170,9 +180,7 @@ Instead of allowing all origins, restrict to specific Canva app IDs:
   {
     "AllowedHeaders": ["*"],
     "AllowedMethods": ["GET", "HEAD"],
-    "AllowedOrigins": [
-      "https://app-YOUR_APP_ID.canva-apps.com"
-    ],
+    "AllowedOrigins": ["https://app-YOUR_APP_ID.canva-apps.com"],
     "ExposeHeaders": [],
     "MaxAgeSeconds": 3000
   }
@@ -185,8 +193,8 @@ For better security, use S3 signed URLs with expiration:
 
 ```typescript
 // Generate signed URL on backend
-const signedUrl = generateSignedS3Url('songs.json', {
-  expiresIn: 3600 // 1 hour
+const signedUrl = generateSignedS3Url("songs.json", {
+  expiresIn: 3600, // 1 hour
 });
 ```
 
@@ -220,23 +228,28 @@ const localSongs = await loadLocalSongs();
 ## ⚠️ Common Issues & Solutions
 
 ### Issue 1: CORS Error
+
 **Error:** `No 'Access-Control-Allow-Origin' header is present`
 
 **Solution:** Configure CORS on your S3 bucket (see above)
 
 ### Issue 2: 403 Forbidden
+
 **Error:** `403 Forbidden` when fetching from S3
 
-**Solution:** 
+**Solution:**
+
 - Make object publicly readable, OR
 - Use signed URLs with proper permissions
 
 ### Issue 3: Wrong Content-Type
+
 **Error:** Browser doesn't parse JSON correctly
 
 **Solution:** Set `Content-Type: application/json` when uploading to S3
 
 ### Issue 4: Preflight Request Fails
+
 **Error:** OPTIONS request fails before GET request
 
 **Solution:** Ensure CORS allows `OPTIONS` method (or `HEAD` method)
@@ -255,6 +268,7 @@ Based on your code:
 ## 🎯 Action Items Before Submission
 
 1. **Verify S3 CORS Configuration**
+
    ```bash
    aws s3api get-bucket-cors --bucket alvo-songs
    ```
@@ -274,4 +288,3 @@ Based on your code:
 ---
 
 **Bottom Line:** S3 links are allowed in Canva apps, but **CORS configuration is mandatory**. Make sure your S3 bucket allows requests from Canva's app origins!
-

@@ -27,3 +27,4 @@ export const SONGS_CACHE_DURATION_MS = 5 * 60 * 1000;
  * Set to false to always fetch fresh data (not recommended for production)
  */
 export const ENABLE_SONGS_CACHE = true;
+
