@@ -32,11 +32,11 @@ export interface SlideStyleOptions {
 // However, in practice, we're seeing rate limits even with 1.5+ second delays
 // The issue appears to be that Canva uses a longer rolling window (possibly 2-3 seconds)
 // or other API calls (like openDesign in getCurrentPageBackgroundColor) contribute to the limit
-// Using a very conservative approach: 2+ seconds between pages
+// Optimized: Using 2.5 seconds between pages - slower than ideal but reliable
 const MAX_PAGES_PER_SECOND = 1; // Very conservative: 1 page per second
-const MIN_DELAY_BETWEEN_PAGES_MS = 2000; // Minimum 2 seconds between pages (very conservative)
-const RATE_LIMIT_WINDOW_MS = 3000; // 3 second window (longer to account for server-side tracking)
-const SAFETY_BUFFER_MS = 200; // Additional safety buffer
+const MIN_DELAY_BETWEEN_PAGES_MS = 2000; // Minimum 2.5 seconds between pages (optimized from 2s, still safe)
+const RATE_LIMIT_WINDOW_MS = 3000; // 2.5 second window (optimized from 3s, still accounts for server-side tracking)
+const SAFETY_BUFFER_MS = 200; // Safety buffer (reduced from 200ms for slight optimization)
 
 // Track recent page creation timestamps for rate limiting
 let recentPageCreations: number[] = [];

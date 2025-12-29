@@ -1,4 +1,3 @@
-/* eslint-disable formatjs/no-literal-string-in-jsx */
 import {
   Alert,
   ColorSelector,

@@ -9,12 +9,15 @@
 ## 📋 Current Status
 
 ### Issue
+
 Your app currently has:
+
 - ❌ Hardcoded Portuguese strings throughout the code
 - ❌ `/* eslint-disable formatjs/no-literal-string-in-jsx */` which disables translation extraction
 - ❌ Empty `messages_en.json` file (no strings extracted)
 
 ### Requirement
+
 - ✅ Source language **must be English (US)**
 - ✅ All UI strings must be extractable to JSON format
 - ✅ Must provide context/descriptions for translators
@@ -182,12 +185,14 @@ This is the proper way but requires significant code changes.
 #### Example Conversion:
 
 **Before:**
+
 ```tsx
 <Text>Precisa de ajuda?</Text>
 <Button>Tutorial</Button>
 ```
 
 **After:**
+
 ```tsx
 <FormattedMessage
   defaultMessage="Need help?"
@@ -206,6 +211,7 @@ This is the proper way but requires significant code changes.
 Based on your current code, here are all the strings that need translation:
 
 ### Main Interface
+
 - "Precisa de ajuda?" → "Need help?"
 - "Tutorial" → "Tutorial"
 - "Configurações" → "Settings"
@@ -213,11 +219,13 @@ Based on your current code, here are all the strings that need translation:
 - "Preparando slides..." → "Preparing slides..."
 
 ### Search
+
 - "Buscar músicas por título ou artista..." → "Search songs by title or artist..."
 - "Nenhuma música encontrada correspondente à sua busca." → "No songs found matching your search."
 - "Nenhuma música disponível." → "No songs available."
 
 ### Settings
+
 - "Cores" → "Colors"
 - "Fundo" → "Background"
 - "Texto" → "Text"
@@ -228,10 +236,12 @@ Based on your current code, here are all the strings that need translation:
 - "Configure quantas linhas de letra aparecerão em cada slide" → "Configure how many lines of lyrics will appear on each slide"
 
 ### Progress
+
 - "Adicionando páginas: {current} de {total}" → "Adding pages: {current} of {total}"
 - "Aguarde enquanto as páginas estão sendo criadas. Isso pode levar um momento para músicas mais longas." → "Please wait while pages are being created. This may take a moment for longer songs."
 
 ### Errors
+
 - "Erro ao carregar músicas. Usando dados locais." → "Error loading songs. Using local data."
 - "Adicionar páginas não é suportado no tipo de design atual. Por favor, abra um design de Apresentação." → "Adding pages is not supported in the current design type. Please open a Presentation design."
 - "Esta música não tem letra para exibir." → "This song has no lyrics to display."
@@ -239,10 +249,12 @@ Based on your current code, here are all the strings that need translation:
 - "Ocorreu um erro inesperado ao criar os slides." → "An unexpected error occurred while creating slides."
 
 ### Success Messages
+
 - "Adicionado{s} {count} slide{s} com a letra de \"{title}\"!" → "Added {count} slide{s} with the lyrics of \"{title}\"!"
 - "Criado{s} {created} de {total} slides. {error}" → "Created {created} of {total} slides. {error}"
 
 ### Tooltips/Aria Labels
+
 - "Ver tutorial" → "View tutorial"
 - "Aumentar mínimo" → "Increase minimum"
 - "Diminuir mínimo" → "Decrease minimum"
@@ -260,6 +272,7 @@ Create `dist/messages_en.json` with all English strings (use the example format 
 ### Step 2: Add Context for Translators
 
 For each string, include:
+
 - **defaultMessage**: The English text
 - **description**: Where it appears and what it does
 - **values** (if using placeholders): Types of variables
@@ -464,5 +477,3 @@ Before uploading:
 ---
 
 **Important**: Even if you don't implement full i18n in your code yet, you **must** upload the translations file to proceed with submission. Canva will use this file to translate your app after approval.
-
-

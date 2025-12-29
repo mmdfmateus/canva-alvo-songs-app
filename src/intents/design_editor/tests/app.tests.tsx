@@ -1,6 +1,4 @@
-/* eslint-disable formatjs/no-literal-string-in-jsx */
 import { useFeatureSupport } from "@canva/app-hooks";
-import { TestAppI18nProvider } from "@canva/app-i18n-kit";
 import { TestAppUiProvider } from "@canva/app-ui-kit";
 import { addElementAtPoint } from "@canva/design";
 import type { Feature } from "@canva/platform";
@@ -12,10 +10,7 @@ import { App } from "../app";
 
 function renderInTestProvider(node: ReactNode): RenderResult {
   return render(
-    // In a test environment, you should wrap your apps in `TestAppI18nProvider` and `TestAppUiProvider`, rather than `AppI18nProvider` and `AppUiProvider`
-    <TestAppI18nProvider>
-      <TestAppUiProvider>{node}</TestAppUiProvider>,
-    </TestAppI18nProvider>,
+    <TestAppUiProvider>{node}</TestAppUiProvider>,
   );
 }
 

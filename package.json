@@ -5,8 +5,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "Canva Pty Ltd.",
   "scripts": {
-    "extract": "formatjs extract \"src/**/*.{ts,tsx}\" --out-file dist/messages_en.json",
-    "build": "cross-env CANVA_BACKEND_HOST= webpack --config webpack.config.ts --mode production && npm run extract",
+    "build": "cross-env CANVA_BACKEND_HOST= webpack --config webpack.config.ts --mode production",
     "format": "prettier '**/*.{css,ts,tsx}' --no-config --write",
     "format:check": "prettier '**/*.{css,ts,tsx}' --no-config --check --ignore-path",
     "format:file": "prettier $1 --no-config --write",
@@ -22,7 +21,6 @@
   },
   "dependencies": {
     "@canva/app-hooks": "^0.0.0-beta.4",
-    "@canva/app-i18n-kit": "^1.1.1",
     "@canva/app-ui-kit": "^5.4.0",
     "@canva/asset": "^2.2.1",
     "@canva/design": "^2.7.3",
@@ -31,14 +29,11 @@
     "@canva/platform": "^2.2.0",
     "@canva/user": "^2.1.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-intl": "^7.1.11"
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@canva/app-eslint-plugin": "^1.0.0-beta.7",
     "@canva/cli": ">= 0.0.1-beta.13",
-    "@formatjs/cli": "6.7.2",
-    "@formatjs/ts-transformer": "3.14.0",
     "@ngrok/ngrok": "1.5.2",
     "@pmmmwh/react-refresh-webpack-plugin": "0.6.1",
     "@svgr/webpack": "8.1.0",

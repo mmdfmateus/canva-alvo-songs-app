@@ -1,4 +1,3 @@
-/* eslint-disable formatjs/no-literal-string-in-jsx */
 import { Button, Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
 import { useMemo, useState } from "react";
 import type { Song } from "../utils/lyricsProcessor";

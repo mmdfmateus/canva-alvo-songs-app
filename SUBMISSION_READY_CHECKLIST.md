@@ -49,20 +49,24 @@ Complete checklist for submitting your Canva app to the Apps Marketplace.
 ### Build & Quality Checks
 
 - [x] **Production Build**
+
   ```bash
   npm run build
   ```
+
   - [x] Build completes without errors
   - [x] Bundle created in `dist/app.js`
   - [x] No localhost URLs in production build
   - [x] BACKEND_HOST warning is acceptable (app doesn't use backend)
 
 - [ ] **Code Quality**
+
   ```bash
   npm run lint:types    # Type checking
   npm run lint          # Linting
   npm run test          # Tests
   ```
+
   - [ ] No TypeScript errors
   - [ ] No linting errors
   - [ ] All tests pass
@@ -319,6 +323,7 @@ All content is prepared in these documents:
 **Documentation**: ✅ Complete
 
 **Next Steps:**
+
 1. Create visual assets (icon, featured image, screenshots)
 2. Final testing of app functionality
 3. Upload to Developer Portal
@@ -329,4 +334,3 @@ All content is prepared in these documents:
 **You're almost ready!** 🚀
 
 Complete the visual assets and final testing, then you can submit your app!
-

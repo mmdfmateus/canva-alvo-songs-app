@@ -2,7 +2,7 @@ import type { Configuration } from "webpack";
 import { DefinePlugin, optimize } from "webpack";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
-import { transform } from "@formatjs/ts-transformer";
+// import { transform } from "@formatjs/ts-transformer";
 import chalk from "chalk";
 import { config } from "dotenv";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
@@ -82,13 +82,13 @@ export function buildConfig({
               options: {
                 transpileOnly: true,
                 getCustomTransformers() {
-                  return {
-                    before: [
-                      transform({
-                        overrideIdFn: "[sha512:contenthash:base64:6]",
-                      }),
-                    ],
-                  };
+                  // return {
+                  //   before: [
+                  //     transform({
+                  //       overrideIdFn: "[sha512:contenthash:base64:6]",
+                  //     }),
+                  //   ],
+                  // };
                 },
               },
             },

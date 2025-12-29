@@ -10,5 +10,5 @@ export default [
       "**/*.config.*",
     ],
   },
-  ...canvaPlugin.configs.apps,
+  ...canvaPlugin.configs.apps_no_i18n,
 ];
